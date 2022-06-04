@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const PORT = process.env.PORT || 5000
 const cors = require('cors')
-//const DB_URL = "mongodb+srv://Zhenya:football_online@cluster0.lpew6.mongodb.net/?retryWrites=true&w=majority"
+//const DB_URL = "mongodb+srv://NAME:PASSWORD@cluster0.lpew6.mongodb.net/?retryWrites=true&w=majority"
 
 const DB_URL = process.env.DB_URL;
 const fileUpload = require('express-fileupload')
