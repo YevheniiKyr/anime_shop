@@ -2,7 +2,6 @@ const router = require('express').Router()
 const categoryController = require("../Controllers/categoryController");
 const checkRole = require("../Middlewares/checkRoleMiddleware")
 
-
 router.get('/' , categoryController.getAll)
 router.post('/' , checkRole('ADMIN'), categoryController.create)
 router.get('/:id', categoryController.getByID)

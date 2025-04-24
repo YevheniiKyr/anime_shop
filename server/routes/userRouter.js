@@ -8,4 +8,5 @@ router.get('/:id', authMiddleware, userController.getByID)
 router.put('/:id', authMiddleware, userController.update)
 router.delete('/:id', checkRole('ADMIN'), userController.delete)
 router.delete('/', checkRole('ADMIN'), userController.deleteAll)
+
 module.exports = router

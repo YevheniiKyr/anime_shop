@@ -1,7 +1,12 @@
 import {makeAutoObservable} from "mobx";
 
-
 export default class OptionsStore {
+
+    constructor() {
+        this._path = ''
+        makeAutoObservable(this)
+    }
+
     get path() {
         return this._path;
     }
@@ -9,16 +14,5 @@ export default class OptionsStore {
     setPath(value) {
         this._path = value;
     }
-
-
-
-    constructor() {
-
-        this._path = ''
-        makeAutoObservable(this)
-    }
-
-
-
 
 }

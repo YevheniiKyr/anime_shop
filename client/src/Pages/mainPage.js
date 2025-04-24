@@ -13,7 +13,6 @@ import AlphabetDropdown from "../Components/AlphabetDropdown";
 
 const MainPage = observer(() => {
 
-
         const isExtraSmallScreen = useMediaQuery({maxWidth: 575.99});
         const isSmallScreen = useMediaQuery({minWidth: 576, maxWidth: 767.99});
         const isMediumScreen = useMediaQuery({minWidth: 768, maxWidth: 991.99});
@@ -23,14 +22,12 @@ const MainPage = observer(() => {
         const navigate = useNavigate()
         const {product, optionsStore} = useContext(Context)
 
-
         useEffect(() => {
             let path = optionsStore.path
             if (path !== '') {
                 optionsStore.setPath('')
                 navigate(path)
             }
-
             if (isExtraSmallScreen) product.setLimit(2)
             if (isSmallScreen) product.setLimit(4)
             if (isMediumScreen) product.setLimit(6)
@@ -39,61 +36,60 @@ const MainPage = observer(() => {
         }, [isSmallScreen, isMediumScreen, isLargeScreen, isExtraSmallScreen, product])
 
 
-    const [limit, setLimit] = useState(product.limit)
-    const [more, setMore] = useState(false)
+        const [limit, setLimit] = useState(product.limit)
+        const [more, setMore] = useState(false)
 
-    const resetFilters = () => {
+        const resetFilters = () => {
             product.setCurrentCategory(null)
             product.setCurrentSearch('')
             product.setCurrentPrice(null)
             product.setCurrentAlphabetOrder(null)
-    }
+        }
 
-    const showMore = () => {
-        product.setLimit(20)
-        setMore(true)
+        const showMore = () => {
+            product.setLimit(20)
+            setMore(true)
+        }
 
+        const showLess = () => {
+            product.setLimit(limit)
+            setMore(false)
+        }
 
-    }
-    const showLess = () => {
-        product.setLimit(limit)
-        setMore(false)
-
-    }
         useEffect(() => {
-
             fetchCategories().then(data => {
                 product.setCategories(data)
-            })
-
-            fetchProducts(
-                product.currentCategory,
-                product.currentSearch,
-                product.page,
-                product.limit,
-                product.currentPrice,
-                product.currentAlphabetOrder
+                fetchProducts(
+                    product.currentCategory,
+                    product.currentSearch,
+                    product.page,
+                    product.limit,
+                    product.currentPrice,
+                    product.currentAlphabetOrder
                 ).then(data => {
-
-                product.setProducts(data.products)
-                product.setTotalCount(data.count)
-
+                    product.setProducts(data.products)
+                    product.setTotalCount(data.count)
+                })
             })
-        }, [product.currentSearch, product.currentCategory,
-                product.page, product.limit, product.currentPrice, product.currentAlphabetOrder])
-
+        }, [
+            product.currentSearch,
+            product.currentCategory,
+            product.page,
+            product.limit,
+            product.currentPrice,
+            product.currentAlphabetOrder
+        ]
+    )
 
         return (
             <>
                 <Container className={"d-flex"}>
-                    <Button className={"btn-success mt-5 me-2"}
-                    onClick={resetFilters}> reset </Button>
-
+                    <Button
+                        className={"btn-success mt-5 me-2"}
+                        onClick={resetFilters}> reset </Button>
                     <CategoryMenu/>
                     <PriceDropdown/>
                     <AlphabetDropdown/>
-                    {/*<Button className={"btn-success mt-5 me-5"}*/}
-                    {/*        onClick={()=> navigate(RECOMMENDATIONS_ROUTE)}> for you </Button>*/}
                     <Form.Control
                         className={"mt-5"}
                         type="text"
@@ -101,24 +97,17 @@ const MainPage = observer(() => {
                         value={product.currentSearch}
                         onChange={(e) => product.setCurrentSearch(e.target.value)}
                     />
-
-
                 </Container>
-
                 <Container className="d-flex m-auto mt-5">
-
-
                     <Form style={{width: "100%"}}>
                         <Col md={12} lg={12} xs={12} xl={12}>
                             <ProductList/>
                             <Button
                                 className={'btn-light'}
-                            onClick= { more?  showLess : showMore}>{ more? "less <" : "more >"}</Button>
+                                onClick={more ? showLess : showMore}>{more ? "less <" : "more >"}</Button>
                             <Pages/>
                         </Col>
                     </Form>
-
-
                 </Container>
             </>
         );

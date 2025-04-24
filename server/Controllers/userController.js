@@ -7,9 +7,7 @@ class UserController {
 
     async getAll(req, res) {
         try {
-
             let id = req.query.id
-
             if (id) {
                 let new_id = id.map(_id => new ObjectId(_id))
                 const users = await User.find({
@@ -18,17 +16,15 @@ class UserController {
                 res.json(users);
                 return
             }
-            const users = await User.find();
+            const users = await User.find({});
             res.json(users);
         } catch (e) {
-            console.log(e)
             res.status(500).json(e)
         }
     }
 
     async getByID(req, res) {
         try {
-
             const user = await User.findById(req.params.id);
             res.json(user);
         } catch (e) {
@@ -41,14 +37,11 @@ class UserController {
         if (req.body.password) {
             req.body.password = bcrypt.hash(req.body.password, 3)
         }
-
         try {
             const updatedUser = await User.findByIdAndUpdate(
                 req.params.id,
-                {
-                    $set: req.body,
-                },
-                {new: true}
+                {$set: req.body},
+                {new: true,  runValidators: true}
             );
             res.status(200).json(updatedUser);
         } catch (err) {
@@ -70,20 +63,10 @@ class UserController {
         } catch (e) {
             res.status(500).json(e)
         }
-
     }
 
     async deleteAll() {
-
-        User.deleteMany({}, (err) => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log('All documents deleted');
-            }
-        })
-
-
+        await User.deleteMany({})
     }
 }
 

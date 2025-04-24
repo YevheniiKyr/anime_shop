@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const Product = new mongoose.Schema({
+const ProductSchema = new mongoose.Schema({
 
     title: {type: String, required: true, unique: true},
     price: {type: Number, required: true},
@@ -10,14 +10,11 @@ const Product = new mongoose.Schema({
     description: {type: String, required: true},
     size: {type: String, default: 'def_size'},
     color: {type: String, default: 'def_color'},
-
-
 }, {
     timestamps: true,
     toJSON: {virtuals: true}
 })
 
+ProductSchema.virtual('averageRating')
 
-
-Product.virtual('averageRating')
-module.exports = mongoose.models.Product || mongoose.model('Product', Product)
+module.exports = mongoose.models.Product || mongoose.model('Product', ProductSchema)

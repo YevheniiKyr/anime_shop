@@ -8,11 +8,8 @@ class RecommendationsController {
 
     async getCollaborative(req, res) {
         const {user_id} = req.query
-
         const users = await User.find()
         const user_idx = users.findIndex(user => (user._id.toString().trim()) === user_id.trim() )
-
-
         const {data} = await axios.get('http://localhost:5000/collaborative_recommendations', {
                 params: {
                     user_idx: user_idx

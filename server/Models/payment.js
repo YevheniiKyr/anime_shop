@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Payment = new mongoose.Schema({
+const PaymentSchema = new mongoose.Schema({
     amount: {
         type: Number,
         required: true,
@@ -20,4 +20,4 @@ const Payment = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model('Payment', Payment);
+module.exports = mongoose.model('Payment', PaymentSchema);

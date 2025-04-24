@@ -4,34 +4,23 @@ const Review = require("../Models/review");
 class reviewController {
 
     async create (req,res) {
-
         try {
-
             const review = req.body
             const review_created = await Review.create(review)
-
             return res.json(review_created)
         } catch (e) {
             res.status(500).json(e)
         }
-
     }
 
-    //all reviews of product
     async getAllReviewsAboutProduct (req,res) {
         try {
-
             const {product_id} = req.query
-            console.log(product_id)
             const reviews = await Review.find({product: product_id})
-
             return res.json(reviews)
-
         } catch (e) {
             res.status(500).json(e)
         }
-
-
     }
 
     async getByID (req,res) {
@@ -41,7 +30,6 @@ class reviewController {
         } catch(e){
             res.status(500).json(e)
         }
-
     }
 
     async update(req,res) {
@@ -52,7 +40,6 @@ class reviewController {
         } catch(e){
             res.status(500).json(e)
         }
-
     }
 
     async delete (req,res) {

@@ -1,9 +1,7 @@
-
-
 const bcrypt = require('bcrypt')
 require(`dotenv`).config();
 const Basket = require('../Models/basket')
-const User = require('../Models/User')
+const User = require('../Models/user')
 const jwt = require('jsonwebtoken')
 
 const genJWT = (_id, email, role) => {
@@ -16,40 +14,30 @@ const genJWT = (_id, email, role) => {
 
 class AuthController {
 
-
-
     async signup(req, res) {
-
         try {
             const {email, password, role} = req.body
-
             if (!email || !password) {
                 return (res.status(400).json({message:"You didn't input password or email  "}))
             }
-
             const existingUser = await User.findOne({
                 email: email
             })
-
             if (existingUser) {
                 return res.status(400).json({message: `Це ім'я вже зайнято: ${email} `})
             }
             const hashPass = await bcrypt.hash(password, 3)
-
             const user = await User.create({email: email, password: hashPass, role: role})
-
             const basket = await Basket.create({user: user._id})
             const token = genJWT(user._id, user.email, user.role)
-            console.log(token)
             return res.json({token: token})
         }
         catch(e){
-            console.log("token failed" )
             res.status(500).json(e)
         }
     }
 
-    async signin(req, res){
+    async signIn(req, res){
         const {email, password} = req.body
         const user = await User.findOne({email: email})
         if (!user) {

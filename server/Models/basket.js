@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const {Schema} = require("mongoose");
 
 
-const Basket = new mongoose.Schema(
+const BasketSchema = new mongoose.Schema(
     {
         user: {type: Schema.Types.ObjectId, ref: 'User', required: true, unique: true},
         products: [
@@ -14,4 +14,4 @@ const Basket = new mongoose.Schema(
     {timestamps: true}
 );
 
-module.exports = mongoose.model("Basket", Basket);
+module.exports = mongoose.model("Basket", BasketSchema);

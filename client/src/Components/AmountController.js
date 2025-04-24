@@ -6,7 +6,6 @@ const AmountController = observer(({amount, setAmount}) => {
     const [currentAmount, setCurrentAmount] = useState(amount || 1);
 
     const increment = () => {
-
         setCurrentAmount(currentAmount + 1);
         setAmount(currentAmount + 1)
     }
@@ -30,7 +29,7 @@ const AmountController = observer(({amount, setAmount}) => {
                             alignItems: "center",
                             fontSize: "16px"
                         }}>-</Button>
-                <Container>{currentAmount}</Container>
+                <Container>{`${currentAmount}`}</Container>
                 <Button onClick={increment}
                         className={"btn-outline-info d-flex"}
                         style={{
@@ -39,8 +38,9 @@ const AmountController = observer(({amount, setAmount}) => {
                             justifyContent: "center",
                             alignItems: "center",
                             fontSize: "16px"
-                        }}>+</Button>
-
+                        }}>
+                    +
+                </Button>
             </Form>
         </Container>
     );

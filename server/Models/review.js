@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const {Schema} = require("mongoose");
 
-const Review = new mongoose.Schema({
+const ReviewSchema = new mongoose.Schema({
     product: {
         type: Schema.Types.ObjectId,
         ref: 'Product',
@@ -27,4 +27,5 @@ const Review = new mongoose.Schema({
     timestamps: true,
     toJSON: {virtuals: true}
 })
-module.exports = mongoose.model('Review', Review)
+
+module.exports = mongoose.model('Review', ReviewSchema)

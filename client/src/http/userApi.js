@@ -1,16 +1,15 @@
 import {$authHost} from "./index";
 
-export const fetchUser = async(id) => {
+export const fetchUser = async (id) => {
     const {data} = await $authHost.get('user/' + id)
     return data
-
 }
-export const fetchUsersArray = async(id) => {
+
+export const fetchUsersArray = async (id) => {
     const {data} = await $authHost.get('user/', {
         params: {
             id: id,
         }
-})
-    console.log(data)
+    })
     return data
 }

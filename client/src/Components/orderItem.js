@@ -5,10 +5,6 @@ import {Button, Card, InputGroup, ListGroup, ListGroupItem} from "react-bootstra
 
 const OrderItem = observer(({order}) => {
 
-
-
-
-
     return (
         <Card className={"mt-2"} style={{borderColor: 'darkgrey'}}>
             <ListGroup>
@@ -17,13 +13,10 @@ const OrderItem = observer(({order}) => {
                 <ListGroupItem border="0"> 3000 </ListGroupItem>
                 <ListGroupItem border="0"> {order.address.street + " " +  order.address.house_num }</ListGroupItem>
                 <ListGroupItem border="0"> order.status </ListGroupItem>
-                 <Button > Замовлення прийнято </Button>
+                    <Button> Замовлення прийнято </Button>
                 </InputGroup>
-
             </ListGroup>
-
         </Card>
-        
     );
 })
 

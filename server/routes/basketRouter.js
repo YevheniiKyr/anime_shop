@@ -8,4 +8,5 @@ router.put('/:id', authMiddleware,  basketController.update)
 router.get('/', authMiddleware, basketController.getByUser)
 router.post('/',  basketController.create)
 router.delete('/:id', checkRole('ADMIN'),  basketController.delete)
+
 module.exports = router

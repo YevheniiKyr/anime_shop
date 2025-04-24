@@ -12,35 +12,29 @@ import {MdEdit} from "react-icons/md";
 
 const ProductItemInBasket = observer(({product, amount}) => {
 
-
         const navigate = useNavigate()
         const {basket} = useContext(Context)
 
         const deleteAllThisFromCart = (product_id) => {
-
             deleteProductFromCartAll(basket.basket._id, product_id).then(() => {
                 let newArray = [...basket.products].filter(prod => prod.product._id !== product_id)
                 basket.setProducts(newArray)
-
             })
-
-
         }
 
 
         const [isHovered, setIsHovered] = useState(false);
         const [amnt, setAmnt] = useState(amount)
+        const [changeAmountVisible, setChangeAmountVisible] = useState(false);
 
         const updateAmnt = (newAmnt) => {
             setAmnt(newAmnt);
         }
-        const [changeAmountVisible, setChangeAmountVisible] = useState(false);
+
         return (
             <Col md={4} lg={3} sm={6}>
-
                 <Container>
                     <Card
-
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
                         style={{
@@ -50,13 +44,22 @@ const ProductItemInBasket = observer(({product, amount}) => {
                             border: 'none',
                             boxShadow: isHovered ? '0 4px 8px rgba(0,0,0,0.2)' : 'none'
                         }}>
-                        <Card.Img variant="top" src={process.env.REACT_APP_API_URL + product.img}
-                                  style={{width: '12rem', height: '10rem', alignSelf: "center", marginTop: "1rem"}}/>
+                        <Card.Img
+                            variant="top"
+                            src={process.env.REACT_APP_API_URL + product.img}
+                            style={{width: '12rem', height: '10rem', alignSelf: "center", marginTop: "1rem"}}
+                        />
                         <Card.Body>
-                            <Card.Title className={"d-flex justify-content-center"}
-                                        style={{fontSize: '2rem'}}> {product.title}</Card.Title>
-                            <Card.Text className={"d-flex justify-content-center"}
-                                       style={{fontSize: '0.85rem'}}>
+                            <Card.Title
+                                className={"d-flex justify-content-center"}
+                                style={{fontSize: '2rem'}}
+                            >
+                                {product.title}
+                            </Card.Title>
+                            <Card.Text
+                                className={"d-flex justify-content-center"}
+                                style={{fontSize: '0.85rem'}}
+                            >
                                 {product.description.substring(0,35)} ...
                             </Card.Text>
                             <CircleNumber number={amnt}/>
@@ -77,13 +80,10 @@ const ProductItemInBasket = observer(({product, amount}) => {
                                         justifyContent: "center",
                                         verticalAlign: "center"
                                     }}
-                                    onClick={() => {
-                                        navigate(PRODUCT_ROUTE + '/' + product._id)
-                                        console.log(PRODUCT_ROUTE + '/' + product._id)
-
-                                    }}>detail</Button>
-
-
+                                    onClick={() => navigate(PRODUCT_ROUTE + '/' + product._id)}
+                                >
+                                    detail
+                                </Button>
                                 <Button
                                     className={"d-flex m-auto btn-danger justify-content-center"}
                                     style={{
@@ -94,20 +94,20 @@ const ProductItemInBasket = observer(({product, amount}) => {
                                         justifyContent: "center",
                                         verticalAlign: "center"
                                     }}
-                                    onClick={() => {
-                                        console.log("THIS ID " + product._id)
-                                        deleteAllThisFromCart(product._id)
-                                    }}
-
-                                >delete</Button>
+                                    onClick={() => deleteAllThisFromCart(product._id)}
+                                >
+                                    delete
+                                </Button>
                             </Row>
-
                         </Card.Body>
                     </Card>
                     <ChangeAmountModal
                         amount={amount}
                         setAmount={updateAmnt}
-                        product={product} show={changeAmountVisible} onHide={() => setChangeAmountVisible(false)}/>
+                        product={product}
+                        show={changeAmountVisible}
+                        onHide={() => setChangeAmountVisible(false)}
+                    />
                 </Container>
             </Col>
         );

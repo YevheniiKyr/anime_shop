@@ -3,41 +3,6 @@ import {ALPHABET_ORDER} from "../utils/consts";
 
 export default class ProductStore {
 
-
-    //convert const hash to array
-    get alphabetOrders() {
-        const alphabetOrderArray = Object.entries(ALPHABET_ORDER);
-        return alphabetOrderArray;
-    }
-
-
-    get currentAlphabetOrder() {
-        return this._currentAlphabetOrder;
-    }
-
-    setCurrentAlphabetOrder(value) {
-        if(value !== "ASCENT" && value !== "DESCENT" && value !==  null) return
-        this._currentAlphabetOrder = value;
-    }
-    get currentPrice() {
-        return this._currentPrice;
-    }
-
-    setCurrentPrice(value) {
-        this._currentPrice = value;
-    }
-
-    get currentProduct() {
-        return this._currentProduct;
-    }
-
-    setCurrentProduct(value) {
-        this._currentProduct = value;
-    }
-
-
-
-
     constructor() {
         this._currentAlphabetOrder = null
         this._categories = []
@@ -52,21 +17,22 @@ export default class ProductStore {
         makeAutoObservable(this, {deep: true})
     }
 
-    setCategories(categories) {
-        this._categories = categories
+    get alphabetOrders() {
+        return Object.entries(ALPHABET_ORDER);
     }
 
-    setProducts(products) {
-        this._products = products
+    get currentAlphabetOrder() {
+        return this._currentAlphabetOrder;
     }
 
-    setCurrentCategory(category) {
-        this._currentCategory = category
+    get currentPrice() {
+        return this._currentPrice;
     }
 
-    setCurrentSearch(search) {
-        this._currentSearch = search
+    get currentProduct() {
+        return this._currentProduct;
     }
+
 
     get currentSearch() {
         return this._currentSearch
@@ -85,9 +51,10 @@ export default class ProductStore {
     }
 
     get prices() {
-        return [{
-            min: 0,
-            max: 300
+        return [
+            {
+                min: 0,
+                max: 300
             },
             {
                 min: 300,
@@ -105,20 +72,7 @@ export default class ProductStore {
                 min: 2000,
                 max: 4000
             },
-          ]
-    }
-
-
-    setPage(page) {
-        this._page = page
-    }
-
-    setTotalCount(count) {
-        this._totalCount = count
-    }
-
-    setLimit(limit) {
-        this._limit = limit
+        ]
     }
 
     get totalCount() {
@@ -131,6 +85,47 @@ export default class ProductStore {
 
     get limit() {
         return this._limit
+    }
+
+    setCurrentPrice(value) {
+        this._currentPrice = value;
+    }
+
+    setCurrentAlphabetOrder(value) {
+        if(!Object.entries(ALPHABET_ORDER).includes(value) && value !== null) return
+        this._currentAlphabetOrder = value;
+    }
+
+    setCurrentProduct(value) {
+        this._currentProduct = value;
+    }
+
+    setCategories(categories) {
+        this._categories = categories
+    }
+
+    setProducts(products) {
+        this._products = products
+    }
+
+    setCurrentCategory(category) {
+        this._currentCategory = category
+    }
+
+    setCurrentSearch(search) {
+        this._currentSearch = search
+    }
+
+    setPage(page) {
+        this._page = page
+    }
+
+    setTotalCount(count) {
+        this._totalCount = count
+    }
+
+    setLimit(limit) {
+        this._limit = limit
     }
 
 }

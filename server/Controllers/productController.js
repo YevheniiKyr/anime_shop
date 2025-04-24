@@ -1,5 +1,5 @@
-const Product = require("../Models/Product");
-const Category = require("../Models/Category");
+const Product = require("../Models/product");
+const Category = require("../Models/category");
 const Review = require("../Models/review");
 const Basket = require("../Models/basket");
 
@@ -10,9 +10,7 @@ const {ObjectId} = require("bson");
 class ProductController {
 
     async create(req, res) {
-
         try {
-
             const {title, price, category, description, size, color} = req.body
             const {img} = req.files
             let fileName = uuid.v4() + '.jpg'
@@ -27,11 +25,9 @@ class ProductController {
         } catch (e) {
             res.status(500).json(e)
         }
-
     }
 
     async getAll(req, res) {
-
         const priceRange = req.query.priceRange
         const filterCategory = req.query.category
         const searchQuery = req.query.search
@@ -47,10 +43,7 @@ class ProductController {
         let count = await Product.count();
 
         try {
-            // Create an empty filter object to store the filter conditions
             const filter = {};
-
-            // Apply filters based on the presence of query parameters
             if (id) {
                 id = id.map((id) => new ObjectId(id));
                 filter._id = {$in: id};
@@ -58,7 +51,6 @@ class ProductController {
 
             if(basket_id) {
                 const basket = await Basket.findById(basket_id)
-
                 if (basket) {
                     if (basket.products.length) {
 
@@ -78,7 +70,6 @@ class ProductController {
                     res.json({})
                     return
                 }
-
             }
 
             if (filterCategory) {
@@ -91,17 +82,13 @@ class ProductController {
             }
 
             if (priceRange) {
-
                 const minPrice = priceRange.min
                 const maxPrice = priceRange.max
                 filter.price = {$gte: minPrice, $lte: maxPrice};
             }
 
+            const filteredCount = await Product.find(filter).countDocuments({});
 
-            // Get the count of filtered products
-            const filteredCount = await Product.find(filter).countDocuments();
-
-            // Get the filtered products with pagination
             let products = await Product.find(filter)
                 .skip(offset)
                 .limit(limit);
@@ -122,30 +109,24 @@ class ProductController {
                 products = products.sort((a, b) => b.title.localeCompare(a.title));
             }
 
-
-            // Send the response with products and count
             res.json({products, count: filteredCount});
         } catch (e) {
             console.log(e);
             res.status(500).json(e);
-
         }
     }
 
 
     async getByID(req, res) {
         try {
-
             const product = await Product.findById(req.params.id)
             const reviews = await Review.find({product: product._id})
             const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
             product.averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
-
             res.json(product);
         } catch (e) {
             res.status(500).json(e)
         }
-
     }
 
 
@@ -156,7 +137,6 @@ class ProductController {
                 res.status(400).json({message: 'no id'});
             }
             const updatedProduct = await Product.findByIdAndUpdate(product._id, product, {new: true});
-
             return res.json(updatedProduct);
         } catch (e) {
             res.status(500).json(e)
@@ -171,14 +151,12 @@ class ProductController {
                 res.status(400).json({message: 'no id'});
             }
             const deletedProduct = await Product.findByIdAndDelete(id);
-
-            if (deletedProduct == null) {
+            if (!deletedProduct) {
                 res.json({message: "Cant find with this id"})
             } else res.json(deletedProduct);
         } catch (e) {
             res.status(500).json(e)
         }
-
     }
 
 

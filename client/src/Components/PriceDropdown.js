@@ -7,6 +7,7 @@ const PriceDropdown = observer(() => {
 
     const {product} = useContext(Context)
     const [clicked, setClicked] = useState(false)
+
     const filterByPrice = (price) => {
         product.setCurrentPrice(price)
 
@@ -21,6 +22,7 @@ const PriceDropdown = observer(() => {
             filterByPrice(price)
         }
     }
+
     return (
         <Container>
             <Row className="mt-5">
@@ -28,8 +30,6 @@ const PriceDropdown = observer(() => {
                     <Dropdown.Toggle style={{background: 'none', border: 'none', color: 'grey'}} id="dropdown-basic">
                         {product.currentPrice ? `${product.currentPrice.min} - ${product.currentPrice.max}` : "Price"}
                     </Dropdown.Toggle>
-
-
                     <Dropdown.Menu>
                         {
                             product.prices.map(
@@ -41,13 +41,10 @@ const PriceDropdown = observer(() => {
                                 </Dropdown.Item>
                             )
                         }
-
                     </Dropdown.Menu>
                 </Dropdown>
             </Row>
         </Container>
-
-
     )
 })
 

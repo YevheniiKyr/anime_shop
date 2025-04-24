@@ -12,7 +12,7 @@ const Pages = observer(() => {
     }
 
     return (
-        <Pagination className={"mt-5 pagination-lg "} >
+        <Pagination className={"mt-5 pagination-lg "}>
             {
                 pages.map(page =>
                     <Pagination.Item

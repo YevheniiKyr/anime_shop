@@ -20,11 +20,10 @@ const CategoryMenu = observer(() => {
         }
 
         const filterByCategory = (cat) => {
-
             product.setCurrentCategory(cat)
             product.setPage(1)
-
         }
+
         return (
             <Container>
                 <Row className="mt-5">
@@ -32,19 +31,15 @@ const CategoryMenu = observer(() => {
                         <Dropdown.Toggle style={{background: 'none', border: 'none', color: 'grey'}} id="dropdown-basic">
                             {product.currentCategory ? product.currentCategory.name : "Category"}
                         </Dropdown.Toggle>
-
-
                         <Dropdown.Menu>
                             {
                                 product.categories.map(
                                     cat => <Dropdown.Item key={cat.name}
-                                                          onClick={
-                                                              () => chooseItem(cat)
-                                                          }
+                                                          onClick={() => chooseItem(cat)}
                                                           style={clicked && cat.name === product.currentCategory?.name ? {backgroundColor: 'lightblue'} : {}}
-                                    >
-                                        {cat.name}
-                                    </Dropdown.Item>
+                                            >
+                                            {cat.name}
+                                            </Dropdown.Item>
                                 )
                             }
 

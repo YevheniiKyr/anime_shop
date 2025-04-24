@@ -23,7 +23,6 @@ const NavBar = observer(() => {
 
 
     const logout = () => {
-//<SlBasket size = {20}/>  <ImExit/> <ImEnter/>
         navigate(LOGIN_ROUTE)
         user.setUser({})
         user.setIsAuth(false)
@@ -31,8 +30,6 @@ const NavBar = observer(() => {
         basket.setProducts({})
         optionsStore.setPath('')
         localStorage.removeItem('token');
-        //  localStorage.setItem('token', '' )
-
     }
 
     return (
@@ -40,15 +37,10 @@ const NavBar = observer(() => {
         <Navbar bg="light" variant="dark">
             <Container>
                 <Button
-                    onClick=
-                        {() => {
-                            navigate(SHOP_ROUTE)
-
-                        }}
+                    onClick={() => navigate(SHOP_ROUTE)}
                     variant={"light"}>
-
-                    <FcShop size={50}/> </Button>
-
+                    <FcShop size={50}/>
+                </Button>
 
                 {user.isAuth && basket.basket?._id ?
                     (
@@ -62,42 +54,21 @@ const NavBar = observer(() => {
                                 size={"lg"}
                                 variant={"light"}
                                 style={{marginRight: 15, border: 'none'}}
-                                onClick=
-                                    {() => {
-                                        console.log(BASKET_ROUTE + '/' + basket.basket._id)
-                                        navigate(BASKET_ROUTE + '/' + basket.basket._id)
-                                    }
-
-                                    }
-
+                                onClick={() => navigate(BASKET_ROUTE + '/' + basket.basket._id)}
                             >
-
                                 <img className={"d-flex m-auto"}
-                                     src={require("../static/shopping_cart_1.png")} width={"35px"} alt={"basket"}/>
-
+                                     src={`${require("../static/shopping_cart_1.png")}`} width={"35px"} alt={"basket"}/>
                             </Button>
-
                             <Button
                                 size={"lg"}
                                 variant={"light"}
                                 style={{marginRight: 15, border: 'none'}}
-                                onClick=
-                                    {() => {
-                                        //  console.log(BASKET_ROUTE + '/' + basket.basket._id)
-                                        navigate(USER_ROUTE + '/' + user.user._id)
-                                    }
-
-                                    }
-
+                                onClick= {() => navigate(USER_ROUTE + '/' + user.user._id)}
                             >
-
-                                <CiUser></CiUser>
-
+                                <CiUser/>
                             </Button>
-
-
                             {
-                                user.user.role === 'ADMIN' ?
+                                user.user.role === 'ADMIN' &&
                                     <Button
                                         size={"lg"}
                                         onClick={() => navigate(ADMIN_ROUTE)}
@@ -106,8 +77,6 @@ const NavBar = observer(() => {
                                     >
                                         адмін
                                     </Button>
-                                    :
-                                    <></>
                             }
                             <Button
                                 size={"lg"}
@@ -115,26 +84,28 @@ const NavBar = observer(() => {
                                 variant={"light"}
                             >
                                 <img className={"d-flex m-auto"}
-                                     src={require("../static/logout-icon.png")} width={"35px"} alt={"basket"}/>
+                                     src={`${require("../static/logout-icon.png")}`} width={"35px"} alt={"basket"}/>
                             </Button>
-
-
                         </Nav>
                     )
                     :
                     <Nav className="ml-auto">
                         <Button
-
                             size={"lg"}
                             onClick={() => navigate(LOGIN_ROUTE)}
                             variant={"light"}
-                        > <img className={"d-flex m-auto"}
-                               src={require("../static/log_in_2.png")} width={"40px"} alt={"basket"}/> </Button>
+                        >
+                            <img
+                                className={"d-flex m-auto"}
+                                src={`${require("../static/log_in_2.png")}`}
+                                width={"40px"}
+                                alt={"basket"}
+                            />
+                        </Button>
                     </Nav>
                 }
             </Container>
         </Navbar>
-
     );
 })
 

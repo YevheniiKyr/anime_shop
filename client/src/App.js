@@ -15,41 +15,34 @@ function App() {
     const [loading, setLoading] = useState(true)
     const {optionsStore} = useContext(Context)
 
-
-
     useEffect(() => {
         const url = window.location.pathname
-        console.log("URL " + url)
+
         if (performance.navigation.type === 1) {
             optionsStore.setPath(url)
         }
 
         if (localStorage.getItem('token')) {
-
-            check().then(user_data => {
-                user.setUser(user_data)
-                user.setIsAuth(true)
-
-                fetchBasket(user.user._id).then(data => {
-                    basket.setBasket(data)
-                    console.log("BASKET SET " + data)
+            check()
+                .then(user_data => {
+                    user.setUser(user_data)
+                    user.setIsAuth(true)
+                    fetchBasket(user.user._id).then(data => {
+                        basket.setBasket(data)
+                    })
                 })
-
-
-            }).finally(() => setLoading(false))
-
+                .finally(() => setLoading(false))
         }
-
         setLoading(false)
     }, [])
 
     if (loading) {
-        //  console.log(loading)
-        return <Spinner className={"d-flex justify-content-center align-content-center"}
-                        style={{width: "30rem", height: "30rem"}} animation={"border"}></Spinner>
+        return <Spinner
+            className={"d-flex justify-content-center align-content-center"}
+            style={{width: "30rem", height: "30rem"}}
+            animation={"border"}
+        />
     }
-
-
     return (
         <BrowserRouter>
             <NavBar/>
