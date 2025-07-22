@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 require(`dotenv`).config();
-const Basket = require('../Models/basket')
-const User = require('../Models/user')
+const Basket = require('../models/basket')
+const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
 const genJWT = (_id, email, role) => {

@@ -9,6 +9,7 @@ import {observer} from "mobx-react-lite";
 import CircleNumber from "./CircleNumber";
 import ChangeAmountModal from "./modals/ChangeAmountModal";
 import {MdEdit} from "react-icons/md";
+import CloudinaryImage from "./CloudinaryImage";
 
 const ProductItemInBasket = observer(({product, amount}) => {
 
@@ -44,11 +45,18 @@ const ProductItemInBasket = observer(({product, amount}) => {
                             border: 'none',
                             boxShadow: isHovered ? '0 4px 8px rgba(0,0,0,0.2)' : 'none'
                         }}>
-                        <Card.Img
-                            variant="top"
-                            src={process.env.REACT_APP_API_URL + product.img}
+                        <CloudinaryImage
+                            publicId={product.img}
+                            width={300}
+                            height={300}
+                            alt={`Image of ${product.name}`}
                             style={{width: '12rem', height: '10rem', alignSelf: "center", marginTop: "1rem"}}
                         />
+                        {/*<Card.Img*/}
+                        {/*    variant="top"*/}
+                        {/*    src={process.env.REACT_APP_API_URL + product.img}*/}
+                        {/*    style={{width: '12rem', height: '10rem', alignSelf: "center", marginTop: "1rem"}}*/}
+                        {/*/>*/}
                         <Card.Body>
                             <Card.Title
                                 className={"d-flex justify-content-center"}

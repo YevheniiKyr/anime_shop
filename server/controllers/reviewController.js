@@ -1,5 +1,5 @@
 
-const Review = require("../Models/review");
+const Review = require("../models/review");
 
 class reviewController {
 

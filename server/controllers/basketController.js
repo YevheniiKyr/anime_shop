@@ -1,5 +1,5 @@
-const Basket = require("../Models/basket")
-const User = require("../Models/user")
+const Basket = require("../models/basket")
+const User = require("../models/user")
 const {ObjectId} = require("bson");
 
 class BasketController {

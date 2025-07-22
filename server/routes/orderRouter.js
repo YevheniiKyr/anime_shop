@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const orderController = require("../Controllers/orderController");
+const orderController = require("../controllers/orderController");
 
 router.get('/' ,  orderController.getAll)
 router.get('/:id', orderController.getByID)

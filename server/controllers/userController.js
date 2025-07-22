@@ -1,4 +1,4 @@
-const User = require("../Models/User");
+const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const {ObjectId} = require("bson");
 

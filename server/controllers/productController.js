@@ -1,11 +1,38 @@
-const Product = require("../Models/product");
-const Category = require("../Models/category");
-const Review = require("../Models/review");
-const Basket = require("../Models/basket");
-
-const uuid = require('uuid')
-const path = require("path");
+const uuid = require("uuid");
+const cloudinary = require('cloudinary').v2
+const streamifier = require('streamifier')
 const {ObjectId} = require("bson");
+
+const Product = require("../models/product");
+const Category = require("../models/category");
+const Review = require("../models/review");
+const Basket = require("../models/basket");
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET,
+});
+
+const uploadToCloudinary = (file) => {
+    return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+            {
+                public_id: uuid.v4(),
+                folder: 'products'
+            },
+            (error, result) => {
+                if (error) {
+                    console.error('Помилка Cloudinary:', error)
+                    return reject(error)
+                }
+                resolve(result.public_id)
+            }
+        )
+        streamifier.createReadStream(file.data).pipe(uploadStream)
+    })
+}
+
 
 class ProductController {
 
@@ -13,12 +40,10 @@ class ProductController {
         try {
             const {title, price, category, description, size, color} = req.body
             const {img} = req.files
-            let fileName = uuid.v4() + '.jpg'
-
+            const fileName = await uploadToCloudinary(img)
             const category_check = Category.findById(category)
             if (!category_check) res.status(500).json("category doesnt exist")
 
-            await img.mv(path.resolve(__dirname, '..', 'static', fileName))
             const prod = await Product.create({title, price, img: fileName, category, description, size, color})
 
             return res.json(prod)

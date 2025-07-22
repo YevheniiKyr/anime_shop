@@ -7,6 +7,7 @@ import {Context} from "../index";
 import AddToCartModal from "./modals/AddToCartModal";
 import AuthorizeFirstModal from "./modals/AuthorizeFirstModal";
 import RatingAlt from "./RatingAlt";
+import CloudinaryImage from "./CloudinaryImage";
 
 const ProductItem = observer(({product}) => {
 
@@ -40,9 +41,16 @@ const ProductItem = observer(({product}) => {
                         transition: isHovered ? 'all 0.3s ease-in-out' : 'none',
                         zIndex: isHovered ? 1 : 0
                     }}>
-                    <Card.Img variant="top" src={process.env.REACT_APP_API_URL + product.img}
-                              style={{width: '10rem', height: '12rem', alignSelf: "center", marginTop: "1rem"}}
+                    <CloudinaryImage
+                        publicId={product.img}
+                        width={300}
+                        height={300}
+                        alt={`Image of ${product.name}`}
+                        style={{width: '10rem', height: '12rem', alignSelf: "center", marginTop: "1rem"}}
                     />
+                    {/*<Card.Img variant="top" src={process.env.REACT_APP_API_URL + product.img}*/}
+                    {/*          style={{width: '10rem', height: '12rem', alignSelf: "center", marginTop: "1rem"}}*/}
+                    {/*/>*/}
                     <Card.Body>
                         <Card.Title
                             className={"d-flex justify-content-center"}

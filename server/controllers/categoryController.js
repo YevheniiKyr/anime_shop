@@ -1,4 +1,4 @@
-const Category = require("../Models/category");
+const Category = require("../models/category");
 
 class CategoryController {
 
@@ -24,9 +24,8 @@ class CategoryController {
     }
     async getAll(req, res) {
 
-
         try {
-            const category = await Category.find();
+            const category = await Category.find({});
             return res.json(category)
         }
         catch(e){

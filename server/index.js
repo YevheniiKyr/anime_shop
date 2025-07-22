@@ -14,9 +14,13 @@ const app = express()
 
 mongoose.set('strictQuery', true)
 
-mongoose.connect(DB_URL, () => {
-    console.log("connect")
-})
+mongoose.connect(DB_URL)
+    .then(() => {
+        console.log("✅ MongoDB connected");
+    })
+    .catch((error) => {
+        console.error("❌ MongoDB connection error:", error.message);
+    });
 
 app.use(cors())
 app.use(express.json())
