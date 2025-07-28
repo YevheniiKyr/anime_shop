@@ -13,12 +13,17 @@ class CategoryService {
         return category
     }
 
-    async getById(id) {
+    async get(id) {
         const category = await Category.findById(id)
         if(!category) {
             throw ApiError.NotFoundError(`Category not found`)
         }
         return category
+    }
+
+    async getAll(){
+        const categories = await Category.find({});
+        return categories;
     }
 
     async delete(id) {
@@ -30,12 +35,10 @@ class CategoryService {
     }
 
     async update(id, category) {
-        const existingCategory = await Category.findById(id)
+        const existingCategory = await Category.findByIdAndUpdate(id, category, {new: true})
         if (!existingCategory) {
             throw ApiError.NotFoundError("Category not found")
         }
-        existingCategory.name = category.name
-        await existingCategory.save()
         return existingCategory
     }
 }

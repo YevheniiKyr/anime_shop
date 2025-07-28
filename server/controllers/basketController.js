@@ -1,5 +1,3 @@
-const Basket = require("../models/basket")
-
 const basketService = require("../services/basketService");
 
 class BasketController {
@@ -18,15 +16,6 @@ class BasketController {
         try {
             const userId = req.user._id;
             const basket = await basketService.getByUser(userId);
-            return res.json(basket)
-        } catch (e) {
-            next(e);
-        }
-    }
-
-    async getAll(req, res, next) {
-        try {
-            const basket = await Basket.find({});
             return res.json(basket)
         } catch (e) {
             next(e);

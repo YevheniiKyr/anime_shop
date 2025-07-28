@@ -1,9 +1,7 @@
 const User = require("../models/user");
 const Basket = require("../models/basket");
 const Product = require("../models/product");
-
 const ApiError = require("../exceptions/apiError");
-const {loadGraphModel} = require("@tensorflow/tfjs");
 
 class BasketService {
 
@@ -25,6 +23,7 @@ class BasketService {
         if (!basket) {
             throw ApiError.NotFoundError("Basket not found")
         }
+        await basket.populate('products')
         return basket
     }
 
@@ -57,6 +56,7 @@ class BasketService {
 
         basket.products = products
         await basket.save()
+        await basket.populate('products')
         return basket
     }
 }

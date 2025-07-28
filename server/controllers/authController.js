@@ -1,14 +1,8 @@
-const bcrypt = require('bcrypt')
-require(`dotenv`).config();
-const Basket = require('../models/basket')
-const User = require('../models/user')
-const jwt = require('jsonwebtoken')
 const authService = require('../services/authService')
-
 
 class AuthController {
 
-    async signup(req, res, next) {
+    async signUp(req, res, next) {
         try {
             const {email, password, role} = req.body
             const token = await authService.signUp(email, password, role)

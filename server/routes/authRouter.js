@@ -11,7 +11,7 @@ router.post('/signin',
 router.post('/signup',
     body('email').isEmail(),
     body('password').isLength({min: 3, max: 32}),
-    authController.signup
+    authController.signUp
 )
 router.post('/check', authMiddleware, authController.verify)
 

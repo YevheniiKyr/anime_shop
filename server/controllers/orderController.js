@@ -1,63 +1,53 @@
-const Order = require("../models/order.js");
-
+const orderService = require("../services/orderService.js");
 
 class OrderController {
 
-    async create (req,res) {
+    async create(req, res, next) {
         try {
-            const order = await Order.create(req.body.order)
+            const order = await orderService.create(req.body);
             return res.json(order)
         } catch (e) {
-            res.status(500).json(e)
+            next(e);
         }
-
     }
 
-    async getAll (req,res) {
+    async getAll(req, res, next) {
         try {
-                const orders = await Order.find()
-                res.json(orders)
-        }catch (e) {
-            res.status(500).json(e)
+            const order = await orderService.getAll();
+            return res.json(order)
+        } catch (e) {
+            next(e)
         }
     }
 
-    async getByID (req,res) {
-        try {
-            const order = await Order.findById(req.params.id);
-            res.json(order);
-        } catch(e){
-            res.status(500).json(e)
-        }
-    }
-
-    async update(req,res) {
-        try {
-            const order = req.body;
-            if(!order._id){
-                res.status(400).json({message: 'no id'});
-            }
-            const updatedOrder = await Order.findByIdAndUpdate(order._id,  order, {new:true} );
-            return res.json(updatedOrder);
-        } catch(e){
-            res.status(500).json(e)
-        }
-    }
-
-    async delete (req,res) {
+    async getByID(req, res, next) {
         try {
             const {id} = req.params
-            if(!id){
-                res.status(400).json({message: 'no id'});
-            }
-            const deletedOrder = await Order.findByIdAndDelete(id);
-            if(deletedOrder == null)
-            {
-                res.json({message :"Cant find book with this id"})
-            }
-            else res.json(deletedOrder);
-        } catch(e){
-            res.status(500).json(e)
+            const order = await orderService.get(id)
+            res.json(order);
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async update(req, res, next) {
+        try {
+            const order = req.body;
+            const updatedOrder = orderService.update(req.body);
+
+            return res.json(updatedOrder);
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async delete(req, res, next) {
+        try {
+            const {id} = req.params
+            const deletedOrder = await orderService.delete(id);
+           res.json(deletedOrder);
+        } catch (e) {
+            next(e)
         }
     }
 

@@ -1,6 +1,4 @@
-const Category = require("../models/category");
 const categoryService = require("../services/categorySevice");
-const basketService = require("../services/basketService");
 
 class CategoryController {
 
@@ -18,7 +16,7 @@ class CategoryController {
     async getByID(req, res, next) {
         try {
             const id = req.params.id
-            const category = await categoryService.getById(id)
+            const category = await categoryService.get(id)
             return res.json(category)
         }
         catch(e){
@@ -26,9 +24,9 @@ class CategoryController {
         }
     }
 
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         try {
-            const category = await Category.find({});
+            const category = await categoryService.getAll();
             return res.json(category)
         }
         catch(e){

@@ -25,6 +25,10 @@ class ApiError extends Error {
         return new ApiError(404, message);
     }
 
+    static CloudinaryDeleteException() {
+        return new ApiError(500, "Can not delete products image");
+    }
+
 }
 
 module.exports = ApiError;

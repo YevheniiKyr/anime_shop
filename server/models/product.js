@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
 const ProductSchema = new mongoose.Schema({
-
     title: {type: String, required: true, unique: true},
     price: {type: Number, required: true},
     review: [{type: mongoose.Schema.Types.ObjectId, ref: 'Review'}],
@@ -10,11 +9,12 @@ const ProductSchema = new mongoose.Schema({
     description: {type: String, required: true},
     size: {type: String, default: 'def_size'},
     color: {type: String, default: 'def_color'},
+    rating: {type: Number, required: false, default: 0},
 }, {
     timestamps: true,
     toJSON: {virtuals: true}
 })
 
-ProductSchema.virtual('averageRating')
+// ProductSchema.virtual('averageRating')
 
 module.exports = mongoose.models.Product || mongoose.model('Product', ProductSchema)
