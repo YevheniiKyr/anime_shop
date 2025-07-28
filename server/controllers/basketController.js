@@ -1,98 +1,57 @@
 const Basket = require("../models/basket")
-const User = require("../models/user")
-const {ObjectId} = require("bson");
+
+const basketService = require("../services/basketService");
 
 class BasketController {
 
-    async create(req, res) {
+    async create(req, res, next) {
         try {
             const {user} = req.body
-            const existingUser = await User.findById(user)
-            if (!existingUser) {
-                res.status(500).json("user doesnt exist")
-            }
-            const existingBasket = await Basket.findById(user);
-            if (!existingBasket) {
-                res.status(500).json("Basket already exists")
-            }
-            const basket = await Basket.create({user: user})
-            return res.json(basket)
+            const basket = await basketService.create(user)
+            return res.json(basket).status(201)
         } catch (e) {
-            res.status(500).json(e)
+            next(e);
         }
     }
 
-    async getByID(req, res) {
+    async getByUser(req, res, next) {
         try {
-            const basket = await Basket.findById(req.params.id);
+            const userId = req.user._id;
+            const basket = await basketService.getByUser(userId);
             return res.json(basket)
         } catch (e) {
-            res.status(500).json(e)
+            next(e);
         }
     }
 
-    async getByUser(req, res) {
-        try {
-            let basket = await Basket.findOne({user: req.query.user});
-            if (!basket) {
-                res.status(500).json("user non exist")
-            }
-            return res.json(basket)
-        } catch (e) {
-            res.status(500).json(e)
-        }
-    }
-
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         try {
             const basket = await Basket.find({});
             return res.json(basket)
         } catch (e) {
-            res.status(500).json(e)
+            next(e);
         }
     }
 
-    async delete(req, res) {
+    async delete(req, res, next) {
         try {
-            const basket = await Basket.findByIdAndDelete(req.params.id);
+            const id = req.params.id;
+            const basket = await basketService.delete(id);
             return res.json(basket)
         } catch (e) {
-            res.status(500).json(e)
+            next(e);
         }
-
     }
 
 
-    async update(req, res) {
-        const {product_id, amount} = req.body;
+    async update(req, res, next) {
+        const {products} = req.body;
+        const userId = req.user._id;
         try {
-            const basket = await Basket.findById(req.params.id)
-            if (!basket) {
-                res.status(404).json({error: 'Basket not found'});
-                return;
-            }
-            if (product_id === 'all') {
-                basket.products = []
-            } else {
-                const existingProduct = basket.products.find(p =>
-                    JSON.stringify(p.product) === JSON.stringify(new ObjectId(product_id))
-                )
-                if (existingProduct) {
-                    if (amount.toString() === 'all') {
-                        basket.products = basket.products.filter(prod => prod.product !== existingProduct.product)
-                        const deletedFromBasket = await Basket.findByIdAndUpdate(req.params.id, basket, {new: true})
-                        res.json({message: 'Product deleted from cart', deletedFromBasket});
-                        return
-                    }
-                    existingProduct.amount += amount;
-                } else {
-                    basket.products.push({product: product_id, amount: amount});
-                }
-            }
-            const basketUpdated = await Basket.findByIdAndUpdate(req.params.id, basket, {new: true})
-            res.json({message: 'Product added to cart', basketUpdated});
+            const updatedBasket = await basketService.update(userId, products)
+            return res.json(updatedBasket)
         } catch (e) {
-            res.status(500).json(e)
+            next(e);
         }
     }
 }

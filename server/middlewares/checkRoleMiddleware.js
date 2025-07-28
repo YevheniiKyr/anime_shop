@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const ApiError = require("../exceptions/apiError");
 
 module.exports = function (role) {
     return function (req,res,next) {
@@ -9,18 +10,22 @@ module.exports = function (role) {
             const token = req.headers.authorization.split(' ')[1]
 
             if (!token) {
-                res.status(401).json()
+                throw ApiError.UnauthorizedError()
             }
 
             const decoded = jwt.verify(token, process.env.SECRET_KEY)
             if (decoded.role !== role) {
-                return res.status(403).json({message: "you dont have permissions"})
+                throw ApiError.AccessDeniedError()
             }
             req.user = decoded
-
             next()
         } catch (e) {
-            res.status(401).json(e)
+            if(e.status === 403) {
+                next(e)
+            }
+            else {
+                next(ApiError.UnauthorizedError())
+            }
         }
     }
 }

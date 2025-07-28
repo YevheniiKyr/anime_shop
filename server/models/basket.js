@@ -1,15 +1,19 @@
 const mongoose = require("mongoose");
 const {Schema} = require("mongoose");
+const {Types} = Schema;
 
 
 const BasketSchema = new mongoose.Schema(
     {
-        user: {type: Schema.Types.ObjectId, ref: 'User', required: true, unique: true},
-        products: [
-            {
-                product: {type: mongoose.Schema.Types.ObjectId, ref: 'Product'},
-                amount: {type: Number, required: true}
-            }],
+        user: {type: Types.ObjectId, ref: 'User', required: true, unique: true},
+        products: {
+            type: [
+                {
+                    product: {type: Types.ObjectId, ref: 'Product'},
+                    amount: {type: Number, required: true}
+                }],
+            required: true
+        }
     },
     {timestamps: true}
 );
