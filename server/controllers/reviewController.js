@@ -1,80 +1,71 @@
+const reviewService = require("../services/reviewService");
 
-const Review = require("../models/review");
+class ReviewController {
 
-class reviewController {
-
-    async create (req,res) {
+    async create(req, res, next) {
         try {
-            const review = req.body
-            const review_created = await Review.create(review)
-            return res.json(review_created)
+            const userId = req.user._id
+            const body = req.body;
+            const {productId} = req.params
+            const review = await reviewService.create(userId, productId, body);
+            return res.json(review)
         } catch (e) {
-            res.status(500).json(e)
+            next(e)
         }
     }
 
-    async getAllReviewsAboutProduct (req,res) {
+    async getAllProductReviews(req, res, next) {
         try {
-            const {product_id} = req.query
-            const reviews = await Review.find({product: product_id})
+            const {productId} = req.params
+            const reviews = await reviewService.getProductReviews(productId);
             return res.json(reviews)
         } catch (e) {
-            res.status(500).json(e)
+            next(e)
         }
     }
 
-    async getByID (req,res) {
+    async getByID(req, res, next) {
         try {
-            const review = await Review.findById(req.params.id);
-            res.json(review);
-        } catch(e){
-            res.status(500).json(e)
+            const id = req.params.id;
+            const review = await reviewService.get(id)
+            return res.json(review);
+        } catch (e) {
+            next(e)
         }
     }
 
-    async update(req,res) {
+    async update(req, res, next) {
         try {
             const review = req.body;
-            const updatedReview = await Review.findByIdAndUpdate(req.params.id,  review, {new:true} );
+            const {id} = req.params
+            const updatedReview = await reviewService.update(id, review);
             return res.json(updatedReview);
-        } catch(e){
-            res.status(500).json(e)
+        } catch (e) {
+            next(e)
         }
     }
 
-    async delete (req,res) {
+    async delete(req, res, next) {
         try {
             const {id} = req.params
-            if(!id){
-                res.status(400).json({message: 'no id'});
-            }
-            const deletedReview = await Review.findByIdAndDelete(id);
-
-            if(deletedReview == null)
-            {
-                res.json({message :"Cant find book with this id"})
-            }
-            else res.json(deletedReview);
-        } catch(e){
-            res.status(500).json(e)
+            const deletedReview = await reviewService.delete(id);
+            return res.json(deletedReview);
+        } catch (e) {
+            next(e)
         }
-
     }
 
-
-    async deleteAll() {
-
-        Review.deleteMany({}, (err) => {
-            if (err) {
-                console.log(err);
-            } else {
-            }
-        })
-
-
+    async deleteProductReviews(req, res, next) {
+        try {
+            const {productId} = req.params
+            await reviewService.deleteProductReviews(productId);
+            return res.json({success: true}).status(204);
+        } catch (e) {
+            next(e)
+        }
     }
 
 }
 
 
-module.exports = new reviewController()
+module.exports = new ReviewController()

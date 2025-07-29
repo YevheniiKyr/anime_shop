@@ -1,6 +1,6 @@
 const SortOrders = Object.freeze({
-    Descent: 1,
-    Ascent: -1,
+    desc: -1,
+    asc: 1,
 })
 
 module.exports = SortOrders

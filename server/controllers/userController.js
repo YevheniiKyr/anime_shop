@@ -1,73 +1,52 @@
-const User = require("../models/User");
-const bcrypt = require("bcrypt");
-const {ObjectId} = require("bson");
+const userService = require("../services/userService");
 
 class UserController {
 
-
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         try {
-            let id = req.query.id
-            if (id) {
-                let new_id = id.map(_id => new ObjectId(_id))
-                const users = await User.find({
-                    '_id': {$in: new_id}
-                })
-                res.json(users);
-                return
-            }
-            const users = await User.find({});
+            const users = await userService.getAll()
             res.json(users);
         } catch (e) {
-            res.status(500).json(e)
+            next(e)
         }
     }
 
-    async getByID(req, res) {
-        try {
-            const user = await User.findById(req.params.id);
-            res.json(user);
-        } catch (e) {
-            res.status(500).json(e)
-        }
-
-    }
-
-    async update(req, res) {
-        if (req.body.password) {
-            req.body.password = bcrypt.hash(req.body.password, 3)
-        }
-        try {
-            const updatedUser = await User.findByIdAndUpdate(
-                req.params.id,
-                {$set: req.body},
-                {new: true,  runValidators: true}
-            );
-            res.status(200).json(updatedUser);
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    }
-
-
-    async delete(req, res) {
+    async getByID(req, res, next) {
         try {
             const {id} = req.params
-            if (!id) {
-                res.status(400).json({message: 'no id'});
-            }
-            const deletedUser = await User.findByIdAndDelete(id);
-            if (deletedUser == null) {
-                res.json({message: "Cant find user with this id"})
-            } else res.json(deletedUser);
+            const user = await userService.get(id)
+            res.json(user);
         } catch (e) {
-            res.status(500).json(e)
+            next(e)
         }
     }
 
-    async deleteAll() {
-        await User.deleteMany({})
+    async update(req, res, next) {
+        try {
+            const {id} = req.params
+            const user = req.user
+            const body = req.body;
+            console.log("updating")
+            const updatedUser = await userService.update(id, body, user)
+            res.json(updatedUser);
+        } catch (e) {
+            console.log(e)
+            next(e)
+        }
     }
+
+
+    async delete(req, res, next) {
+        try {
+            const {id} = req.params
+            const user = req.user
+            const deletedUser = await userService.delete(id, user);
+            res.json(deletedUser);
+        } catch (e) {
+            next(e)
+        }
+    }
+
 }
 
 

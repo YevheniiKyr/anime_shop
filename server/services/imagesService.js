@@ -40,6 +40,7 @@ class ImagesService {
                 throw ApiError.CloudinaryDeleteException(`Error deleting ${fileName}: ${err.message}`);
             })
     }
+
 }
 
 module.exports = new ImagesService();

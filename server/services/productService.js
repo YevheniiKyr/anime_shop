@@ -1,10 +1,8 @@
-const {ObjectId} = require("bson");
 const imagesService = require("./imagesService");
 const Product = require("../models/product");
 const Category = require("../models/category");
-const Review = require("../models/review");
 const ApiError = require("../exceptions/apiError");
-const SortOrders = require("../controllers/SortOrders");
+const SortOrders = require("../consts/SortOrders");
 
 class ProductService {
 
@@ -20,19 +18,13 @@ class ProductService {
     }
 
     async getProducts(queryParams) {
-            let {priceRange, filterCategory, searchQuery, limit, page, alphabetOrder, id} = queryParams
+            let {minPrice, maxPrice, filterCategory, searchQuery, limit, page, order, sortBy} = queryParams
             page = page || 1
             limit = limit || 15
             const offset = page * limit - limit
-            let count = await Product.count();
-
+            let sortOrder = SortOrders.desc
             const filter = {};
-            let order = SortOrders.Descent;
-
-            if (id) {
-                id = new ObjectId(id);
-                filter._id = {$in: id};
-            }
+            sortBy = sortBy || 'title';
 
             if (filterCategory) {
                 filter.category = filterCategory;
@@ -43,20 +35,22 @@ class ProductService {
                 filter.title = regex;
             }
 
-            if (priceRange) {
-                const minPrice = priceRange.min
-                const maxPrice = priceRange.max
-                filter.price = {$gte: minPrice, $lte: maxPrice};
+            if (minPrice) {
+                filter.price.$gte = minPrice
             }
 
-            if (alphabetOrder) {
-                order = SortOrders[alphabetOrder];
+            if (maxPrice) {
+                filter.price.$lte = maxPrice
+            }
+
+            if (order) {
+                sortOrder = SortOrders[order];
             }
 
             // const filteredCount = await Product.find(filter).countDocuments({});
 
             let products = await Product.find(filter)
-                .sort({title: order})
+                .sort({[sortBy]: sortOrder})
                 .skip(offset)
                 .limit(limit);
 

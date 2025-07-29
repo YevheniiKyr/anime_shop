@@ -4,9 +4,12 @@ class OrderController {
 
     async create(req, res, next) {
         try {
-            const order = await orderService.create(req.body);
+            const userId = req.user._id;
+            const body = req.body
+            const order = await orderService.create(userId, body);
             return res.json(order)
         } catch (e) {
+            console.log(e)
             next(e);
         }
     }
@@ -33,8 +36,8 @@ class OrderController {
     async update(req, res, next) {
         try {
             const order = req.body;
-            const updatedOrder = orderService.update(req.body);
-
+            const {id} = req.params;
+            const updatedOrder = await orderService.update(id, order);
             return res.json(updatedOrder);
         } catch (e) {
             next(e)

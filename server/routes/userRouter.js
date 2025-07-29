@@ -8,8 +8,7 @@ const basketRouter = require('./basketRouter')
 router.get('/', checkRole(Roles.Admin), userController.getAll)
 router.get('/:id', auth, userController.getByID)
 router.put('/:id', auth, userController.update)
-router.delete('/:id', checkRole(Roles.Admin), userController.delete)
-router.delete('/', checkRole(Roles.Admin), userController.deleteAll)
+router.delete('/:id', auth, userController.delete)
 
 router.use('/:id/basket', basketRouter)
 

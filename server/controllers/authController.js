@@ -23,7 +23,6 @@ class AuthController {
         }
     }
 
-
     async verify(req, res, next) {
         try {
             const token = authService.genJWT(req.user._id, req.user.email, req.user.role)
@@ -31,11 +30,7 @@ class AuthController {
         } catch(e) {
             next(e)
         }
-
     }
-
-
-
 
 }
 module.exports = new AuthController()

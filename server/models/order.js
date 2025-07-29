@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const OrderStatuses = require("../consts/orderStatuses");
 
 const OrderSchema = new mongoose.Schema(
     {
@@ -9,13 +9,12 @@ const OrderSchema = new mongoose.Schema(
                 product: {type: mongoose.Schema.Types.ObjectId, ref: 'Product'},
                 amount: {type: Number, required: true}
             }],
-
         address: {
             street: {type: String},
             house_num: {type: String},
             apartment_num: {type: String, required: false}
         },
-        status: {type: String, default: "pending"},
+        status: {type: String, default: OrderStatuses.Pending, enum: Object.values(OrderStatuses)},
         total: {type: Number, default: 0}
     },
     {timestamps: true}

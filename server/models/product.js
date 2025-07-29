@@ -10,11 +10,10 @@ const ProductSchema = new mongoose.Schema({
     size: {type: String, default: 'def_size'},
     color: {type: String, default: 'def_color'},
     rating: {type: Number, required: false, default: 0},
+    total_reviews: {type: Number, required: false, default: 0},
 }, {
     timestamps: true,
-    toJSON: {virtuals: true}
 })
 
-// ProductSchema.virtual('averageRating')
 
 module.exports = mongoose.models.Product || mongoose.model('Product', ProductSchema)

@@ -26,7 +26,7 @@ class ProductController {
     async getByID(req, res, next) {
         try {
             const {id} = req.params
-            const product = productService.get(id)
+            const product = await productService.get(id)
             res.json(product);
         } catch (e) {
             next(e)
@@ -54,7 +54,6 @@ class ProductController {
             next(e)
         }
     }
-
 
 }
 

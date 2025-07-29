@@ -1,6 +1,5 @@
 const Category = require("../models/category");
 const ApiError = require("../exceptions/apiError");
-const Basket = require("../models/basket");
 
 class CategoryService {
 
