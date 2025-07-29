@@ -52,11 +52,6 @@ const ProductItemInBasket = observer(({product, amount}) => {
                             alt={`Image of ${product.name}`}
                             style={{width: '12rem', height: '10rem', alignSelf: "center", marginTop: "1rem"}}
                         />
-                        {/*<Card.Img*/}
-                        {/*    variant="top"*/}
-                        {/*    src={process.env.REACT_APP_API_URL + product.img}*/}
-                        {/*    style={{width: '12rem', height: '10rem', alignSelf: "center", marginTop: "1rem"}}*/}
-                        {/*/>*/}
                         <Card.Body>
                             <Card.Title
                                 className={"d-flex justify-content-center"}

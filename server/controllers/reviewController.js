@@ -47,8 +47,8 @@ class ReviewController {
 
     async delete(req, res, next) {
         try {
-            const {id} = req.params
-            const deletedReview = await reviewService.delete(id);
+            const {productId, id} = req.params
+            const deletedReview = await reviewService.delete(productId, id);
             return res.json(deletedReview);
         } catch (e) {
             next(e)

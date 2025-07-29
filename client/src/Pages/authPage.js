@@ -37,13 +37,18 @@ const Auth = observer(() => {
             const user_data = await login(email, password);
             user.setUser(user_data)
             user.setIsAuth(true)
-            const data = await fetchBasket(user_data._id);
+        } catch (e) {
+            alert("Wrong email or password")
+        }
+        try {
+            const data = await fetchBasket(user.user._id);
             basket.setBasket(data)
             basket.setProducts(data.products)
             navigate(SHOP_ROUTE)
         } catch (e) {
-            alert("Неправильне ім'я чи пароль")
+            alert("Basket functionality is not working currently")
         }
+
     }
 
     return (

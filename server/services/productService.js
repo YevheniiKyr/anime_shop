@@ -18,50 +18,41 @@ class ProductService {
     }
 
     async getProducts(queryParams) {
-            let {minPrice, maxPrice, filterCategory, searchQuery, limit, page, order, sortBy} = queryParams
-            page = page || 1
-            limit = limit || 15
-            const offset = page * limit - limit
-            let sortOrder = SortOrders.desc
-            const filter = {};
-            sortBy = sortBy || 'title';
+        let {minPrice, maxPrice, category, searchQuery, limit, page, order, sortBy} = queryParams
+        page = page || 1
+        limit = limit || 15
+        const offset = page * limit - limit
+        let sortOrder = SortOrders.asc
+        const filter = {};
+        sortBy = sortBy || 'title';
+        if (category) {
+            filter.category = category;
+        }
+        if (searchQuery) {
+            const regex = new RegExp(searchQuery, 'i');
+            filter.title = regex;
+        }
+        if (minPrice || maxPrice) {
+            filter.price = {}
+            minPrice && (filter.price.$gte = minPrice)
+            maxPrice && (filter.price.$lte = maxPrice)
 
-            if (filterCategory) {
-                filter.category = filterCategory;
-            }
-
-            if (searchQuery) {
-                const regex = new RegExp(searchQuery, 'i');
-                filter.title = regex;
-            }
-
-            if (minPrice) {
-                filter.price.$gte = minPrice
-            }
-
-            if (maxPrice) {
-                filter.price.$lte = maxPrice
-            }
-
-            if (order) {
-                sortOrder = SortOrders[order];
-            }
-
-            // const filteredCount = await Product.find(filter).countDocuments({});
-
-            let products = await Product.find(filter)
-                .sort({[sortBy]: sortOrder})
-                .skip(offset)
-                .limit(limit);
-
-            const filteredCount = products.length
-
-            return {products, count: filteredCount};
+        }
+        if (order) {
+            sortOrder = SortOrders[order];
+            console.log("sortOrder", sortOrder);
+        }
+        let products = await Product.find(filter)
+            .sort({[sortBy]: sortOrder})
+            .skip(offset)
+            .limit(limit);
+        const filteredCount = products.length
+        return {products, count: filteredCount};
     }
 
     async get(id) {
         const product = await Product.findById(id)
-        if(!product) {
+        if (!product) {
             throw ApiError.NotFoundError("Product not found")
         }
         return product;
@@ -69,7 +60,7 @@ class ProductService {
 
     async update(id, body) {
         const updatedProduct = await Product.findByIdAndUpdate(id, body, {new: true});
-        if(!updatedProduct) {
+        if (!updatedProduct) {
             throw ApiError.NotFoundError("Product not found")
         }
         return updatedProduct;
@@ -83,7 +74,7 @@ class ProductService {
         await imagesService.deleteImage(deletedProduct.img)
         return deletedProduct;
     }
-
+//
 }
 
 module.exports = new ProductService()

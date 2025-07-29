@@ -23,7 +23,7 @@ class BasketService {
         if (!basket) {
             throw ApiError.NotFoundError("Basket not found")
         }
-        await basket.populate('products')
+        await basket.populate('products.product')
         return basket
     }
 
@@ -56,7 +56,7 @@ class BasketService {
 
         basket.products = products
         await basket.save()
-        await basket.populate('products')
+        await basket.populate('products.product')
         return basket
     }
 }

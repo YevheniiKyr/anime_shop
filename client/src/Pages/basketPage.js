@@ -9,32 +9,32 @@ import {ORDER_ROUTE} from "../utils/constRoutes";
 
 const BasketPage = observer(() => {
 
-    const {basket} = useContext(Context)
-    const {id} = useParams()
+    const {basket, user} = useContext(Context)
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-            fetchProductsFromBasket(id).then(data => {
+            fetchProductsFromBasket(user.user._id).then(data => {
                 basket.setProducts(data)
-                setLoading(false)
-            })
+                console.log(basket.products.products.length)
+                console.log(data)
+            }).finally(() => setLoading(false))
         }, [])
 
+    if (loading) {
+        return <Container> loading ...</Container>
+    }
 
     return (
-        loading ?
-            <Container> loading ...</Container>
-            :
             <Container>
                 {
-                    basket.products.length ?
+                    basket.products.products.length ?
                         (
                             <Container>
                                 <Row className="d-flex m-auto">
                                     {
-                                        basket.products.map(
-                                            prod => <ProductItemInBasket key={prod._id} product={prod.product}
+                                        basket.products.products.map(
+                                            prod => <ProductItemInBasket key={prod.product} product={prod.product}
                                                                          amount={prod.amount}
                                             />)
 
@@ -63,7 +63,6 @@ const BasketPage = observer(() => {
                 }
             </Container>
     );
-
 
 })
 

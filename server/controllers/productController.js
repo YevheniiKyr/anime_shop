@@ -18,6 +18,7 @@ class ProductController {
             const {products, count} = await productService.getProducts(req.query)
             res.json({products, count});
         } catch (e) {
+            console.log(e)
             next(e)
         }
     }

@@ -18,6 +18,9 @@ const ProductItem = observer(({product}) => {
     const [authorizeVisible, setAuthorizeVisible] = useState(false)
     const {product: products} = useContext(Context)
 
+    useEffect(() => {
+        console.log(product.rating)
+    }, []);
     return (
         <Col lg={3} md={4} sm={6} xs={12}>
             {<Container className={products.limit === 2 && "d-flex m-auto justify-content-center"}>
@@ -48,9 +51,6 @@ const ProductItem = observer(({product}) => {
                         alt={`Image of ${product.name}`}
                         style={{width: '10rem', height: '12rem', alignSelf: "center", marginTop: "1rem"}}
                     />
-                    {/*<Card.Img variant="top" src={process.env.REACT_APP_API_URL + product.img}*/}
-                    {/*          style={{width: '10rem', height: '12rem', alignSelf: "center", marginTop: "1rem"}}*/}
-                    {/*/>*/}
                     <Card.Body>
                         <Card.Title
                             className={"d-flex justify-content-center"}
@@ -72,7 +72,7 @@ const ProductItem = observer(({product}) => {
                         </Card.Text>
                         <Container className={"d-flex justify-content-center mb-3"}>
                             <RatingAlt
-                                rating={product.averageRating}
+                                rating={product.rating}
                                 readOnly={true}
                             />
                         </Container>

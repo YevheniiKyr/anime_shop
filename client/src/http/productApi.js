@@ -8,6 +8,7 @@ export const createCategory = async (category) => {
 }
 
 export const fetchCategories = async () => {
+    console.log(`Fetching categories`)
     const {data} = await $host.get('category/')
     return data
 }
@@ -19,14 +20,16 @@ export const fetchOneProduct = async (id) => {
 }
 
 export const fetchProducts = async (cat, search, page, limit, priceRange, alphabetOrder) => {
+    console.log(`Fetching products`)
     const {data} = await $host.get('product/', {
         params: {
-            category: cat,
-            search: search,
+            category: cat?._id,
+            searchQuery: search,
             page: page,
             limit: limit,
-            priceRange: priceRange,
-            alphabetOrder: alphabetOrder
+            minPrice: priceRange?.min,
+            maxPrice: priceRange?.max,
+            order: alphabetOrder
         }
     })
     return data
@@ -46,27 +49,23 @@ export const createProduct = async (product) => {
     return data
 }
 
-export const fetchReviews = async (product_id) => {
-    const {data} = await $authHost.get('review/', {
-        params: {
-            product_id: product_id
-        }
-    })
+export const fetchReviews = async (productId) => {
+    const {data} = await $authHost.get(`product/${productId}/review/`)
     return data
 }
 
-export const addReviewToProduct = async (review) => {
-    const {data} = await $authHost.post('review/', review)
+export const addReviewToProduct = async (productId, review) => {
+    const {data} = await $authHost.post(`product/${productId}/review/`, review)
     return data
 }
 
-export const updateReview = async (review) => {
-    const {data} = await $authHost.put('review/' + review._id, review)
+export const updateReview = async (productId, review) => {
+    const {data} = await $authHost.put(`product/${productId}/review/${review._id}`, review)
     return data
 }
 
-export const deleteReview = async (id) => {
-    const {data} = await $authHost.delete('review/' + id)
+export const deleteReview = async (productId, reviewId) => {
+    const {data} = await $authHost.delete(`product/${productId}review/${reviewId}`)
     return data
 }
 

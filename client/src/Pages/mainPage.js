@@ -13,6 +13,8 @@ import AlphabetDropdown from "../Components/AlphabetDropdown";
 
 const MainPage = observer(() => {
 
+        const [loading, setLoading] = useState(true);
+
         const isExtraSmallScreen = useMediaQuery({maxWidth: 575.99});
         const isSmallScreen = useMediaQuery({minWidth: 576, maxWidth: 767.99});
         const isMediumScreen = useMediaQuery({minWidth: 768, maxWidth: 991.99});
@@ -55,22 +57,37 @@ const MainPage = observer(() => {
             product.setLimit(limit)
             setMore(false)
         }
+        const getProducts = async () => {
+            const productsData = await fetchProducts(
+                product.currentCategory,
+                product.currentSearch,
+                product.page,
+                product.limit,
+                product.currentPrice,
+                product.currentAlphabetOrder
+            )
+            product.setProducts(productsData.products)
+            product.setTotalCount(productsData.count)
+        }
 
         useEffect(() => {
-            fetchCategories().then(data => {
-                product.setCategories(data)
-                fetchProducts(
-                    product.currentCategory,
-                    product.currentSearch,
-                    product.page,
-                    product.limit,
-                    product.currentPrice,
-                    product.currentAlphabetOrder
-                ).then(data => {
-                    product.setProducts(data.products)
-                    product.setTotalCount(data.count)
-                })
-            })
+                setLoading(true)
+                const getCategories = async () => {
+                    const categories = await fetchCategories()
+                    product.setCategories(categories)
+                }
+                const promises = []
+                promises.push(getCategories())
+                promises.push(getProducts())
+                Promise.all(promises).catch(error => console.log(error)).finally(() => setLoading(false))
+            }
+            , []
+        )
+        ;
+
+        useEffect(() => {
+            setLoading(true)
+            getProducts().finally(() => setLoading(false))
         }, [
             product.currentSearch,
             product.currentCategory,
@@ -78,15 +95,19 @@ const MainPage = observer(() => {
             product.limit,
             product.currentPrice,
             product.currentAlphabetOrder
-        ]
-    )
+        ]);
 
+        // if (loading) {
+        //     return <div> Loading ... </div>
+        // }
         return (
             <>
                 <Container className={"d-flex"}>
                     <Button
                         className={"btn-success mt-5 me-2"}
-                        onClick={resetFilters}> reset </Button>
+                        onClick={resetFilters}>
+                        reset
+                    </Button>
                     <CategoryMenu/>
                     <PriceDropdown/>
                     <AlphabetDropdown/>

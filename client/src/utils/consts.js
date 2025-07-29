@@ -1,4 +1,4 @@
 export const ALPHABET_ORDER = Object.freeze({
-    ASCENT: 'a-z',
-    DESCENT: 'z-a'
+    asc: 'a-z',
+    desc: 'z-a'
 })

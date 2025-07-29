@@ -10,6 +10,7 @@ import ReviewList from "../Components/ReviewList";
 import AuthorizeFirstModal from "../Components/modals/AuthorizeFirstModal";
 import RatingAlt from "../Components/RatingAlt";
 import AddToCartModal from "../Components/modals/AddToCartModal";
+import CloudinaryImage from "../Components/CloudinaryImage";
 
 const ProductPage = observer(() => {
 
@@ -21,13 +22,12 @@ const ProductPage = observer(() => {
         const [loading, setLoading] = useState(true)
         const [cartVisible, setCartVisible] = useState(false)
         const [comment, setComment] = useState('')
-        const [rating, setRating] = useState(products.currentProduct.averageRating);
+        const [rating, setRating] = useState(0);
 
         useEffect(() => {
             fetchOneProduct(id).then(data => {
                 products.setCurrentProduct(data)
-                setLoading(false)
-            })
+            }).finally(() => setLoading(false))
         }, [])
 
         const findSimilar = () => {
@@ -35,8 +35,8 @@ const ProductPage = observer(() => {
         }
 
         const addReview = () => {
-            const review = {product: id, user: user.user._id, rating: rating, text: comment}
-            addReviewToProduct(review).then(data => {
+            const review = {rating: rating, text: comment}
+            addReviewToProduct(id, review).then(data => {
                 let newReviews = [...reviewsContext.reviews]
                 newReviews.push(data)
                 reviewsContext.setReviews(newReviews)
@@ -64,14 +64,21 @@ const ProductPage = observer(() => {
                                         boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
                                         marginTop: "20px"
                                     }}>
-                                    <Card.Img
-                                        src={process.env.REACT_APP_API_URL + products.currentProduct.img}
-                                        style={{
-                                                  width: '20vw',
-                                                  height: '20vw',
-                                                  alignSelf: "center",
-                                                  marginTop: "5vw",
-                                              }}
+                                    {/*<Card.Img*/}
+                                    {/*    src={process.env.REACT_APP_API_URL + products.currentProduct.img}*/}
+                                    {/*    style={{*/}
+                                    {/*              width: '20vw',*/}
+                                    {/*              height: '20vw',*/}
+                                    {/*              alignSelf: "center",*/}
+                                    {/*              marginTop: "5vw",*/}
+                                    {/*          }}*/}
+                                    {/*/>*/}
+                                    <CloudinaryImage
+                                        publicId={products.currentProduct.img}
+                                        width={300}
+                                        height={300}
+                                        alt={`Image of ${products.currentProduct.name}`}
+                                        style={{width: '20vw', height: '20vw', alignSelf: "center", marginTop: "5vw"}}
                                     />
                                     <Card.Body>
                                         <Card.Title
@@ -88,7 +95,7 @@ const ProductPage = observer(() => {
                                         </Card.Text>
                                         <Container className={"d-flex justify-content-center"}>
                                             <RatingAlt
-                                                rating={products.currentProduct.averageRating}
+                                                rating={products.currentProduct.rating}
                                                 size="2.5vw"
                                                 readOnly={true}/>
                                         </Container>

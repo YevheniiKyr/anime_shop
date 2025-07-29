@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import {Container, Dropdown, Row} from "react-bootstrap";
@@ -9,12 +9,14 @@ const AlphabetDropdown = observer(() => {
         const {product} = useContext(Context)
         const [clicked, setClicked] = useState(false)
 
+    useEffect(() => {
+
+    })
+
         const chooseItem = (key) => {
-            if (clicked && key === product.currentAlphabetOrder) {
-                setClicked(false)
+            if (key === product.currentAlphabetOrder) {
                 filterByAlphabet(null)
             } else {
-                setClicked(true)
                 filterByAlphabet(key)
             }
         }
@@ -36,7 +38,7 @@ const AlphabetDropdown = observer(() => {
                                     ([key, value]) =>
                                         <Dropdown.Item key={key}
                                                        onClick={() => chooseItem(key)}
-                                                       style={clicked && key === product.currentAlphabetOrder ? {backgroundColor: 'lightblue'} : {}}
+                                                       style={key === product.currentAlphabetOrder ? {backgroundColor: 'lightblue'} : {}}
                                         >
                                         {value}
                                         </Dropdown.Item>

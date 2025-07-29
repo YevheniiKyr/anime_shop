@@ -37,7 +37,7 @@ const ReviewItem = observer(({review}) => {
         review.rating = editRating
         review.text = editText
 
-        updateReview(review).then(() => {
+        updateReview(product.currentProduct._id, review).then(() => {
             fetchOneProduct(product.currentProduct._id).then(data => {
                     product.setCurrentProduct(data)
                 }
@@ -46,13 +46,12 @@ const ReviewItem = observer(({review}) => {
     };
 
     const handleDelete = () => {
-        deleteReview(review._id).then(data => {
+        deleteReview(product.currentProduct._id, review._id).then(data => {
             console.log(data)
             let newReviewContext = [...reviewsContext.reviews].filter(rev => rev._id !== review._id)
             reviewsContext.setReviews(newReviewContext)
             fetchOneProduct(product.currentProduct._id).then(data => {
                     product.setCurrentProduct(data)
-
                 }
             )
         })

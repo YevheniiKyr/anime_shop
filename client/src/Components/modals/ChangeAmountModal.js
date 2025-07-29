@@ -6,19 +6,20 @@ import {addProductToCart} from "../../http/cartApi";
 import {BASKET_ROUTE} from "../../utils/constRoutes";
 import {Button, Card, Container, Modal} from "react-bootstrap";
 import AmountController from "../AmountController";
+import CloudinaryImage from "../CloudinaryImage";
 
 const ChangeAmountModal = observer(({product, show, onHide, amount, setAmount}) => {
 
-    const {basket} = useContext(Context)
+    const {basket, user} = useContext(Context)
     const [amnt, setAmnt] = useState(amount)
     const navigate = useNavigate()
 
-    const addToCart = () => {
-        addProductToCart(basket.basket._id, product._id, amnt - amount).then(data => {
-                console.log(data)
-                navigate(BASKET_ROUTE + '/' + basket.basket._id)
-            }
-        )
+    const addToCart = async () => {
+        const newItem = {product: product._id, amount:  amnt - amount }
+        const products =  [...basket.products, newItem]
+        await addProductToCart(user.user._id, products)
+        basket.setProducts(products);
+        navigate(BASKET_ROUTE + '/' + basket.basket._id)
         setAmount(amnt)
         onHide()
     }
@@ -32,8 +33,13 @@ const ChangeAmountModal = observer(({product, show, onHide, amount, setAmount}) 
 
             <Modal.Body style={{textAlign: 'center'}}>
                 <Card>
-                    <Card.Img variant="top" src={process.env.REACT_APP_API_URL + product.img}
-                              style={{width: '12rem', height: '10rem', alignSelf: "center", marginTop: "1rem"}}/>
+                    <CloudinaryImage
+                        publicId={product.img}
+                        width={300}
+                        height={300}
+                        alt={`Image of ${product.name}`}
+                        style={{width: '12rem', height: '10rem', alignSelf: "center", marginTop: "1rem"}}
+                    />
                     <Card.Body>
                         <Card.Text>
                             {product.name}

@@ -9,7 +9,6 @@ class ReviewService {
         if(existingReview) {
             throw ApiError.BadRequestError("Review already exists");
         }
-        console.log(productId);
         const product = await Product.findById(productId);
         if(!product) {
             throw ApiError.NotFoundError("Product not found");
@@ -22,6 +21,8 @@ class ReviewService {
         }
         else {
             product.rating = (product.rating * totalReviews + review.rating) / (totalReviews + 1)
+            product.total_reviews = totalReviews + 1
+
         }
         await product.save()
         return review
@@ -48,15 +49,36 @@ class ReviewService {
         return updatedReview;
     }
 
-    async delete(id) {
+    async delete(productId, id) {
+        const product = await Product.findById(productId);
+        if(!product) {
+            throw ApiError.NotFoundError("Product not found");
+        }
         const deletedReview = await Review.findByIdAndDelete(id);
         if(!deletedReview) {
             throw ApiError.NotFoundError("Review not found");
         }
+        const totalReviews = product.total_reviews;
+        if(totalReviews === 1) {
+            product.rating = 0
+            product.total_reviews = 0
+        }
+        else {
+            product.rating = (product.rating * totalReviews - deletedReview.rating) / (totalReviews -1)
+            product.total_reviews = totalReviews - 1
+        }
+        await product.save()
         return deletedReview;
     }
 
     async deleteProductReviews(productId) {
+        const product = await Product.findById(productId);
+        if(!product) {
+            throw ApiError.NotFoundError("Product not found");
+        }
+        product.total_reviews = 0;
+        product.rating = 0;
+        await product.save()
         await Review.deleteMany({product: productId});
         return;
     }

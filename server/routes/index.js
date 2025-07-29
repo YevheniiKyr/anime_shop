@@ -12,6 +12,6 @@ router.use('/product', productRouter)
 router.use('/category', categoryRouter)
 router.use('/order', orderRouter)
 router.use('/auth', authRouter)
-router.use('/', recRouter)
+router.use('/recommendations', recRouter)
 
 module.exports = router

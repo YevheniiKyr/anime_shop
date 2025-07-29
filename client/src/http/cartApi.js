@@ -1,23 +1,18 @@
 import {$authHost} from "./index";
 
-export const fetchBasket = async (user) => {
-    const {data} = await $authHost.get('basket/', {
-        params: {
-            user: user
-        }
-    })
+export const fetchBasket = async (userId) => {
+    const {data} = await $authHost.get(`user/${userId}/basket/`)
     return data
 }
 
-export const fetchBasketById = async (basket_id) => {
-    const {data} = await $authHost.get('basket/' + basket_id)
+export const fetchBasketById = async (basketId) => {
+    const {data} = await $authHost.get('basket/' + basketId)
     return data
 }
 
-export const addProductToCart = async (basket_id, product_id, amount) => {
-    const {data} = await $authHost.put('basket/' + basket_id, {
-        product_id: product_id,
-        amount: amount
+export const addProductToCart = async (userId, products) => {
+    const {data} = await $authHost.put(`user/${userId}/basket/`, {
+        products: products,
     })
     return data
 }
@@ -41,12 +36,8 @@ export const deleteProductFromCartAll = async (basket_id, product_id) => {
     return data.deletedFromBasket
 }
 
-export const fetchProductsFromBasket = async (basket_id) => {
-    const {data} = await $authHost.get('product/', {
-        params: {
-            basket_id: basket_id
-        }
-    })
+export const fetchProductsFromBasket = async (userId) => {
+    const {data} = await $authHost.get(`user/${userId}/basket`)
     return data
 }
 
