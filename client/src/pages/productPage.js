@@ -2,22 +2,22 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import {ORDER_ROUTE, SIMILAR_PRODUCTS_ROUTE} from "../utils/constRoutes";
 import {useNavigate, useParams} from "react-router-dom";
-import {addReviewToProduct, fetchOneProduct} from "../http/productApi";
-import styled from "styled-components";
+import {fetchOneProduct} from "../http/productApi";
+import {addReviewToProduct} from "../http/reviewApi";
+
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
-import ReviewList from "../Components/ReviewList";
-import AuthorizeFirstModal from "../Components/modals/AuthorizeFirstModal";
-import RatingAlt from "../Components/RatingAlt";
-import AddToCartModal from "../Components/modals/AddToCartModal";
-import CloudinaryImage from "../Components/CloudinaryImage";
+import ReviewList from "../components/ReviewList";
+import AuthorizeFirstModal from "../components/modals/AuthorizeFirstModal";
+import RatingAlt from "../components/RatingAlt";
+import AddToCartModal from "../components/modals/AddToCartModal";
+import CloudinaryImage from "../components/CloudinaryImage";
 
 const ProductPage = observer(() => {
 
         const {id} = useParams()
         const navigate = useNavigate()
-        const {user} = useContext(Context)
-        const {reviewsContext, product: products} = useContext(Context)
+        const {userStore, reviewStore, productStore} = useContext(Context)
         const [authorizeVisible, setAuthorizeVisible] = useState(false)
         const [loading, setLoading] = useState(true)
         const [cartVisible, setCartVisible] = useState(false)
@@ -26,7 +26,7 @@ const ProductPage = observer(() => {
 
         useEffect(() => {
             fetchOneProduct(id).then(data => {
-                products.setCurrentProduct(data)
+                productStore.setCurrentProduct(data)
             }).finally(() => setLoading(false))
         }, [])
 
@@ -37,13 +37,13 @@ const ProductPage = observer(() => {
         const addReview = () => {
             const review = {rating: rating, text: comment}
             addReviewToProduct(id, review).then(data => {
-                let newReviews = [...reviewsContext.reviews]
+                let newReviews = [...reviewStore.reviews]
                 newReviews.push(data)
-                reviewsContext.setReviews(newReviews)
+                reviewStore.setReviews(newReviews)
                 setComment('')
                 setRating(0)
                 fetchOneProduct(id).then(data => {
-                    products.setCurrentProduct(data)
+                    productStore.setCurrentProduct(data)
                 })
             })
             setRating(0)
@@ -74,28 +74,28 @@ const ProductPage = observer(() => {
                                     {/*          }}*/}
                                     {/*/>*/}
                                     <CloudinaryImage
-                                        publicId={products.currentProduct.img}
+                                        publicId={productStore.currentProduct.img}
                                         width={300}
                                         height={300}
-                                        alt={`Image of ${products.currentProduct.name}`}
-                                        style={{width: '20vw', height: '20vw', alignSelf: "center", marginTop: "5vw"}}
+                                        alt={`Image of ${productStore.currentProduct.name}`}
+                                        styles={{width: '20vw', height: '20vw', alignSelf: "center", marginTop: "5vw"}}
                                     />
                                     <Card.Body>
                                         <Card.Title
                                             className={"d-flex justify-content-center"}
                                             style={{fontSize: "4vw"}}
                                         >
-                                            {products.currentProduct.title}
+                                            {productStore.currentProduct.title}
                                         </Card.Title>
                                         <Card.Text
                                             className={"d-flex justify-content-center"}
                                             style={{fontSize: "1.5vw"}}
                                         >
-                                            {products.currentProduct.description}
+                                            {productStore.currentProduct.description}
                                         </Card.Text>
                                         <Container className={"d-flex justify-content-center"}>
                                             <RatingAlt
-                                                rating={products.currentProduct.rating}
+                                                rating={productStore.currentProduct.rating}
                                                 size="2.5vw"
                                                 readOnly={true}/>
                                         </Container>
@@ -106,7 +106,7 @@ const ProductPage = observer(() => {
                                                     fontSize: "1.5vw"
                                                 }}
                                                 className={"mt-3 me-5 btn-info"}
-                                                onClick={() => user.isAuth ? setCartVisible(true) : setAuthorizeVisible(true)}
+                                                onClick={() => userStore.isAuth ? setCartVisible(true) : setAuthorizeVisible(true)}
                                             >
                                                 Add to cart
                                             </Button>
@@ -116,14 +116,14 @@ const ProductPage = observer(() => {
                                                     fontSize: "1.5vw"
                                                 }}
                                                 className={"mt-3 btn-success"}
-                                                onClick={() => user.isAuth ? navigate(ORDER_ROUTE + '/' + 2) : setAuthorizeVisible(true)}
+                                                onClick={() => userStore.isAuth ? navigate(ORDER_ROUTE + '/' + 2) : setAuthorizeVisible(true)}
                                             >
                                                 Buy
                                             </Button>
                                         </Form>
                                     </Card.Body>
                                     <AddToCartModal
-                                        product={products.currentProduct}
+                                        product={productStore.currentProduct}
                                         onHide={() => setCartVisible(false)}
                                         show={cartVisible}/>
                                 </Card>
@@ -148,7 +148,7 @@ const ProductPage = observer(() => {
                                         <Button
                                             size="md"
                                             className={"mt-5 btn-success "}
-                                            onClick={() => user.isAuth ? addReview() : setAuthorizeVisible(true)}
+                                            onClick={() => userStore.isAuth ? addReview() : setAuthorizeVisible(true)}
                                         >Надіслати</Button>
                                     </Col>
                                     <Container className={"d-flex justify-content-center"}>

@@ -46,7 +46,6 @@ class BasketService {
             try {
                 existingProduct = await Product.findById(product.product)
             } catch (e) {
-                console.log("is not valid")
                 throw ApiError.BadRequestError("Product id " + product.product + " is not valid");
             }
             if (!product) {

@@ -5,10 +5,10 @@ export const fetchUser = async (id) => {
     return data
 }
 
-export const fetchUsersArray = async (id) => {
+export const fetchUsersArray = async (ids) => {
     const {data} = await $authHost.get('user/', {
         params: {
-            id: id,
+            id: ids,
         }
     })
     return data

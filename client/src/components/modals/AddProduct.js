@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Button, Dropdown, Form, Modal} from "react-bootstrap";
 import {Context} from "../../index";
-import {createProduct, fetchCategories} from "../../http/productApi";
+import {createProduct} from "../../http/productApi";
+import {fetchCategories} from "../../http/categoryApi";
 import {observer} from "mobx-react-lite";
 
 const AddProduct = observer(({show, onHide}) => {
 
-        const {product} = useContext(Context)
+        const {productStore} = useContext(Context)
 
         const [name, setName] = useState('')
         const [desc, setDesc] = useState('')
@@ -15,7 +16,7 @@ const AddProduct = observer(({show, onHide}) => {
         const [selectedCategory, setSelectedCategory] = useState({name: null, _id: null})
 
         useEffect(() => {
-            fetchCategories().then(data => product.setCategories(data))
+            fetchCategories().then(data => productStore.setCategories(data))
 
         }, [])
         const selectFile = e => {
@@ -46,7 +47,7 @@ const AddProduct = observer(({show, onHide}) => {
                             <Dropdown.Toggle>{selectedCategory.name || "Оберіть категорію"}</Dropdown.Toggle>
                             <Dropdown.Menu>
                                 {
-                                    product.categories.map(type =>
+                                    productStore.categories.map(type =>
                                         <Dropdown.Item
                                             onClick={() => setSelectedCategory(type)}
                                             key={type._id}

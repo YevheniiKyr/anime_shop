@@ -37,8 +37,8 @@ class ReviewController {
     async update(req, res, next) {
         try {
             const review = req.body;
-            const {id} = req.params
-            const updatedReview = await reviewService.update(id, review);
+            const {productId, id} = req.params
+            const updatedReview = await reviewService.update(productId, id, review);
             return res.json(updatedReview);
         } catch (e) {
             next(e)

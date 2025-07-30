@@ -11,7 +11,7 @@ import {clearBasket} from "../http/cartApi";
 
 const OrderPage = () => {
 
-    const {basket, user} = useContext(Context)
+    const {basketStore, userStore} = useContext(Context)
     const KEY = process.env.REACT_APP_STRIPE
     const [total, setTotal] = useState(0)
     const [stripeToken, setStripeToken] = useState('')
@@ -30,7 +30,7 @@ const OrderPage = () => {
 
     useEffect(() => {
         let sum = 0
-        basket.products.map(prod => sum += prod.product.price * prod.amount)
+        basketStore.products.map(prod => sum += prod.product.price * prod.amount)
         setTotal(sum)
     })
 
@@ -40,13 +40,13 @@ const OrderPage = () => {
 
     const onOrderApprove = (billingAddress) => {
         createOrder({
-            user: user.user._id,
-            products: basket.products,
+            user: userStore.user._id,
+            products: basketStore.products,
             address: billingAddress,
             status: "pending",
             total: total
         }).then(() => {
-            clearBasket(basket.basket._id).then(() => {
+            clearBasket(basketStore.basketId).then(() => {
                 navigate(SHOP_ROUTE)
             })
         })
@@ -68,7 +68,7 @@ const OrderPage = () => {
                 </thead>
                 <tbody>
                 {
-                    basket.products.map(
+                    basketStore.products.map(
                         (prod, idx) =>
                             <tr key={prod.product._id}>
                                 <Mytd> {idx + 1}</Mytd>

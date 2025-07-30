@@ -11,7 +11,7 @@ const RatingAlt = ({rating, color, readOnly, onRate, size}) => {
             emptySymbol={<FaStar color = {'#e4e5e9'}/>}
             fullSymbol={<FaStar color = {'#ffc107'}/>}
             readonly={readOnly}
-            fractions={10}
+            fractions={2}
             onClick={(value) => onRate(value)}
             onChange={(value) => onRate(value)}
         />

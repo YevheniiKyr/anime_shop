@@ -11,16 +11,16 @@ import {
     SIMILAR_PRODUCTS_ROUTE,
     USER_ROUTE
 } from "./utils/constRoutes";
-import mainPage from "./Pages/mainPage";
-import authPage from "./Pages/authPage";
-import productPage from "./Pages/productPage";
-import basketPage from "./Pages/basketPage";
-import AdminPage from "./Pages/adminPage";
-import orderPage from "./Pages/orderPage";
-import manageOrdersPage from "./Pages/manageOrdersPage";
-import userPage from "./Pages/userPage";
-import recommendationsPage from "./Pages/recommendationsPage";
-import similarProductsPage from "./Pages/similarProductsPage";
+import mainPage from "./pages/mainPage";
+import authPage from "./pages/authPage";
+import productPage from "./pages/productPage";
+import basketPage from "./pages/basketPage";
+import AdminPage from "./pages/adminPage";
+import orderPage from "./pages/orderPage";
+import manageOrdersPage from "./pages/manageOrdersPage";
+import userPage from "./pages/userPage";
+import recommendationsPage from "./pages/recommendationsPage";
+import similarProductsPage from "./pages/similarProductsPage";
 
 export const authRoutes = [
     {

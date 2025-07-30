@@ -3,12 +3,12 @@ import {useContext, useState} from "react";
 
 import {observer} from "mobx-react-lite";
 import {Context} from "../../index";
-import {createCategory} from "../../http/productApi";
+import {createCategory} from "../../http/categoryApi";
 
 
 const AddCategory = observer (({show, onHide}) => {
 
-    const {product} = useContext(Context)
+    const {productStore} = useContext(Context)
 
     const [title, setTitle] = useState('')
     const addCategory = () => {
@@ -16,10 +16,10 @@ const AddCategory = observer (({show, onHide}) => {
         createCategory(title).then(data => {
             setTitle('')
             console.log("DATA " + data)
-            let newCategories = [...product.categories]
+            let newCategories = [...productStore.categories]
             newCategories.push(data)
             console.log(newCategories)
-            product.setCategories(newCategories)
+            productStore.setCategories(newCategories)
             //onHide()
         })
     }

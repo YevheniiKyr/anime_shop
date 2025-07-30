@@ -2,40 +2,39 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Context} from "../index";
 import {Button, Container, Row} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {fetchProductsFromBasket} from "../http/cartApi";
-import ProductItemInBasket from "../Components/productItemInBasket";
+import ProductItemInBasket from "../components/productItemInBasket";
 import {ORDER_ROUTE} from "../utils/constRoutes";
 
 const BasketPage = observer(() => {
 
-    const {basket, user} = useContext(Context)
+    const {basketStore, userStore} = useContext(Context)
     const navigate = useNavigate()
-    const [loading, setLoading] = useState(true)
+    // const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-            fetchProductsFromBasket(user.user._id).then(data => {
-                basket.setProducts(data)
-                console.log(basket.products.products.length)
-                console.log(data)
-            }).finally(() => setLoading(false))
-        }, [])
+    // useEffect(() => {
+    //         fetchBasket(userStore.user._id).then(data => {
+    //             basketStore.setProducts(data)
+    //             console.log(basketStore.products)
+    //         }).finally(() => setLoading(false))
+    //     }, [])
 
-    if (loading) {
-        return <Container> loading ...</Container>
-    }
+    // if (loading) {
+    //     return <Container> loading ...</Container>
+    // }
 
     return (
             <Container>
                 {
-                    basket.products.products.length ?
+                    basketStore.products?.length ?
                         (
                             <Container>
                                 <Row className="d-flex m-auto">
                                     {
-                                        basket.products.products.map(
-                                            prod => <ProductItemInBasket key={prod.product} product={prod.product}
-                                                                         amount={prod.amount}
+                                        basketStore.products.map(
+                                            p => <ProductItemInBasket key={p.product._id} product={p.product}
+                                                                         amount={p.amount}
                                             />)
 
                                     }
@@ -44,7 +43,7 @@ const BasketPage = observer(() => {
                                 >
                                     <Button
                                         size={"lg"}
-                                        onClick={() => navigate(ORDER_ROUTE + '/' + basket.basket._id)}
+                                        onClick={() => navigate(ORDER_ROUTE + '/' + basketStore.basketId)}
                                         style={{margin: 5, background: "#F59B56", border: "none"}}
 
                                     >

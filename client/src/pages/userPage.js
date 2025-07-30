@@ -3,7 +3,7 @@ import {Context} from "../index";
 import {Button, Card, Container, Form} from "react-bootstrap";
 
 const UserPage = () => {
-    const {user} = useContext(Context)
+    const {userStore} = useContext(Context)
 
     function editName(_id) {
 
@@ -21,26 +21,26 @@ const UserPage = () => {
                         className={"d-flex justify-content-center"}
                         style={{fontSize: "4vw"}}
                     >
-                        {user.user.email}
+                        {userStore.user.email}
                     </Card.Title>
                     <Card.Text
                         className={"d-flex justify-content-center"}
                         style={{fontSize: "2vw"}}
                     >
-                        Role: {user.user.role}
+                        Role: {userStore.user.role}
                     </Card.Text>
                     <Card.Text
                         className={"d-flex justify-content-center"}
                         style={{fontSize: "1.5vw"}}
                     >
-                        We are together from {user.user.createdAt}
+                        We are together from {userStore.user.createdAt}
                     </Card.Text>
                     <Form className={"d-flex justify-content-center "}>
                         <Button
                             size={"lg"}
                             style={{background: "none", border: 'none'}}
                             className={"mt-2 me-3 btn-info"}
-                            onClick={() => editName(user.user._id)}
+                            onClick={() => editName(userStore.user._id)}
                         >
                             Edit
                         </Button>
@@ -48,7 +48,7 @@ const UserPage = () => {
                             size={"lg"}
                             style={{background: "none", border: 'none'}}
                             className={"mt-2 btn-info"}
-                            onClick={() => editName(user.user._id)}
+                            onClick={() => editName(userStore.user._id)}
                         >
                             Delete
                         </Button>

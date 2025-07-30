@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {deleteReview, fetchOneProduct, updateReview} from "../http/productApi";
+import {fetchOneProduct} from "../http/productApi";
+import {deleteReview, updateReview} from "../http/reviewApi";
 import {fetchUser} from "../http/userApi";
 import {Button, Card, Col, Container, Form, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
@@ -10,7 +11,7 @@ import RatingAlt from "./RatingAlt";
 
 const ReviewItem = observer(({review}) => {
 
-    const {user, reviewsContext, product} = useContext(Context)
+    const {userStore, reviewStore, productStore} = useContext(Context)
     let [userComment, setUserComment] = useState({})
 
     useEffect(() => {
@@ -37,21 +38,21 @@ const ReviewItem = observer(({review}) => {
         review.rating = editRating
         review.text = editText
 
-        updateReview(product.currentProduct._id, review).then(() => {
-            fetchOneProduct(product.currentProduct._id).then(data => {
-                    product.setCurrentProduct(data)
+        updateReview(productStore.currentProduct._id, review).then(() => {
+            fetchOneProduct(productStore.currentProduct._id).then(data => {
+                    productStore.setCurrentProduct(data)
                 }
             )
         })
     };
 
     const handleDelete = () => {
-        deleteReview(product.currentProduct._id, review._id).then(data => {
+        deleteReview(productStore.currentProduct._id, review._id).then(data => {
             console.log(data)
-            let newReviewContext = [...reviewsContext.reviews].filter(rev => rev._id !== review._id)
-            reviewsContext.setReviews(newReviewContext)
-            fetchOneProduct(product.currentProduct._id).then(data => {
-                    product.setCurrentProduct(data)
+            let newReviewContext = [...reviewStore.reviews].filter(rev => rev._id !== review._id)
+            reviewStore.setReviews(newReviewContext)
+            fetchOneProduct(productStore.currentProduct._id).then(data => {
+                    productStore.setCurrentProduct(data)
                 }
             )
         })
@@ -132,7 +133,7 @@ const ReviewItem = observer(({review}) => {
                                         </Col>
                                         <Col xs={4} md={4} lg={4}>
                                             {
-                                                user.isAuth && user?.user?._id === userComment._id &&
+                                                userStore.isAuth && userStore?.user?._id === userComment._id &&
                                                 <Container className={"d-flex"}>
                                                     <Button
                                                         className={"me-2"}

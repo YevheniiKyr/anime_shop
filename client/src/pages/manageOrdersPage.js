@@ -1,5 +1,5 @@
 import React from 'react';
-import OrderList from "../Components/orderList";
+import OrderList from "../components/OrderList";
 
 const ManageOrdersPage = () => {
     return (

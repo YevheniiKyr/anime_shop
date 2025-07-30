@@ -1,15 +1,16 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Button, Col, Container, Form} from "react-bootstrap";
-import CategoryMenu from "../Components/CategoryMenu";
-import ProductList from "../Components/ProductList";
+import CategoryMenu from "../components/CategoryMenu";
+import ProductList from "../components/ProductList";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
-import {fetchCategories, fetchProducts} from "../http/productApi";
-import Pages from "../Components/Pages";
+import {fetchProducts} from "../http/productApi";
+import {fetchCategories} from  "../http/categoryApi"
+import Pages from "../components/Pages";
 import {useMediaQuery} from 'react-responsive';
 import {useNavigate} from "react-router-dom";
-import PriceDropdown from "../Components/PriceDropdown";
-import AlphabetDropdown from "../Components/AlphabetDropdown";
+import PriceDropdown from "../components/PriceDropdown";
+import AlphabetDropdown from "../components/AlphabetDropdown";
 
 const MainPage = observer(() => {
 
@@ -22,7 +23,7 @@ const MainPage = observer(() => {
         const isExtraLargeScreen = useMediaQuery({minWidth: 1200});
 
         const navigate = useNavigate()
-        const {product, optionsStore} = useContext(Context)
+        const {productStore, optionsStore} = useContext(Context)
 
         useEffect(() => {
             let path = optionsStore.path
@@ -30,51 +31,51 @@ const MainPage = observer(() => {
                 optionsStore.setPath('')
                 navigate(path)
             }
-            if (isExtraSmallScreen) product.setLimit(2)
-            if (isSmallScreen) product.setLimit(4)
-            if (isMediumScreen) product.setLimit(6)
-            if (isLargeScreen || isExtraLargeScreen) product.setLimit(8)
-            setLimit(product.limit)
-        }, [isSmallScreen, isMediumScreen, isLargeScreen, isExtraSmallScreen, product])
+            if (isExtraSmallScreen) productStore.setLimit(2)
+            if (isSmallScreen) productStore.setLimit(4)
+            if (isMediumScreen) productStore.setLimit(6)
+            if (isLargeScreen || isExtraLargeScreen) productStore.setLimit(8)
+            setLimit(productStore.limit)
+        }, [isSmallScreen, isMediumScreen, isLargeScreen, isExtraSmallScreen, productStore])
 
 
-        const [limit, setLimit] = useState(product.limit)
+        const [limit, setLimit] = useState(productStore.limit)
         const [more, setMore] = useState(false)
 
         const resetFilters = () => {
-            product.setCurrentCategory(null)
-            product.setCurrentSearch('')
-            product.setCurrentPrice(null)
-            product.setCurrentAlphabetOrder(null)
+            productStore.setCurrentCategory(null)
+            productStore.setCurrentSearch('')
+            productStore.setCurrentPrice(null)
+            productStore.setCurrentAlphabetOrder(null)
         }
 
         const showMore = () => {
-            product.setLimit(20)
+            productStore.setLimit(20)
             setMore(true)
         }
 
         const showLess = () => {
-            product.setLimit(limit)
+            productStore.setLimit(limit)
             setMore(false)
         }
         const getProducts = async () => {
             const productsData = await fetchProducts(
-                product.currentCategory,
-                product.currentSearch,
-                product.page,
-                product.limit,
-                product.currentPrice,
-                product.currentAlphabetOrder
+                productStore.currentCategory,
+                productStore.currentSearch,
+                productStore.page,
+                productStore.limit,
+                productStore.currentPrice,
+                productStore.currentAlphabetOrder
             )
-            product.setProducts(productsData.products)
-            product.setTotalCount(productsData.count)
+            productStore.setProducts(productsData.products)
+            productStore.setTotalCount(productsData.count)
         }
 
         useEffect(() => {
                 setLoading(true)
                 const getCategories = async () => {
                     const categories = await fetchCategories()
-                    product.setCategories(categories)
+                    productStore.setCategories(categories)
                 }
                 const promises = []
                 promises.push(getCategories())
@@ -89,12 +90,12 @@ const MainPage = observer(() => {
             setLoading(true)
             getProducts().finally(() => setLoading(false))
         }, [
-            product.currentSearch,
-            product.currentCategory,
-            product.page,
-            product.limit,
-            product.currentPrice,
-            product.currentAlphabetOrder
+            productStore.currentSearch,
+            productStore.currentCategory,
+            productStore.page,
+            productStore.limit,
+            productStore.currentPrice,
+            productStore.currentAlphabetOrder
         ]);
 
         // if (loading) {
@@ -115,8 +116,8 @@ const MainPage = observer(() => {
                         className={"mt-5"}
                         type="text"
                         placeholder="Search"
-                        value={product.currentSearch}
-                        onChange={(e) => product.setCurrentSearch(e.target.value)}
+                        value={productStore.currentSearch}
+                        onChange={(e) => productStore.setCurrentSearch(e.target.value)}
                     />
                 </Container>
                 <Container className="d-flex m-auto mt-5">

@@ -18,16 +18,16 @@ import {CiUser} from 'react-icons/ci'
 import {FaRegHeart} from 'react-icons/fa'
 
 const NavBar = observer(() => {
-    const {user, basket, optionsStore} = useContext(Context)
+    const {userStore, basketStore, optionsStore} = useContext(Context)
     const navigate = useNavigate()
 
 
     const logout = () => {
         navigate(LOGIN_ROUTE)
-        user.setUser({})
-        user.setIsAuth(false)
-        basket.setBasket({})
-        basket.setProducts({})
+        userStore.setUser({})
+        userStore.setIsAuth(false)
+        basketStore.setBasketId({})
+        basketStore.setProducts({})
         optionsStore.setPath('')
         localStorage.removeItem('token');
     }
@@ -42,7 +42,7 @@ const NavBar = observer(() => {
                     <FcShop size={50}/>
                 </Button>
 
-                {user.isAuth && basket.basket?._id ?
+                {userStore.isAuth && basketStore.basketId ?
                     (
                         <Nav className="ml-auto ">
                             <Button className={"me-2"}
@@ -54,7 +54,7 @@ const NavBar = observer(() => {
                                 size={"lg"}
                                 variant={"light"}
                                 style={{marginRight: 15, border: 'none'}}
-                                onClick={() => navigate(BASKET_ROUTE + '/' + basket.basket._id)}
+                                onClick={() => navigate(BASKET_ROUTE + '/' + basketStore.basketId)}
                             >
                                 <img className={"d-flex m-auto"}
                                      src={`${require("../static/shopping_cart_1.png")}`} width={"35px"} alt={"basket"}/>
@@ -63,12 +63,12 @@ const NavBar = observer(() => {
                                 size={"lg"}
                                 variant={"light"}
                                 style={{marginRight: 15, border: 'none'}}
-                                onClick= {() => navigate(USER_ROUTE + '/' + user.user._id)}
+                                onClick= {() => navigate(USER_ROUTE + '/' + userStore.user._id)}
                             >
                                 <CiUser/>
                             </Button>
                             {
-                                user.user.role === 'ADMIN' &&
+                                userStore.user.role === 'ADMIN' &&
                                     <Button
                                         size={"lg"}
                                         onClick={() => navigate(ADMIN_ROUTE)}

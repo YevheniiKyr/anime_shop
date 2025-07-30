@@ -10,6 +10,7 @@ export const createOrder = async (order) => {
     return data
 
 }
+
 export const fetchOrders = async () => {
     const {data} = await $authHost.get('order/' )
     return data

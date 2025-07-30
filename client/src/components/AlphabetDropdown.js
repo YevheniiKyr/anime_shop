@@ -6,7 +6,7 @@ import {ALPHABET_ORDER} from "../utils/consts";
 
 const AlphabetDropdown = observer(() => {
 
-        const {product} = useContext(Context)
+        const {productStore} = useContext(Context)
         const [clicked, setClicked] = useState(false)
 
     useEffect(() => {
@@ -14,7 +14,7 @@ const AlphabetDropdown = observer(() => {
     })
 
         const chooseItem = (key) => {
-            if (key === product.currentAlphabetOrder) {
+            if (key === productStore.currentAlphabetOrder) {
                 filterByAlphabet(null)
             } else {
                 filterByAlphabet(key)
@@ -22,7 +22,7 @@ const AlphabetDropdown = observer(() => {
         }
 
         const filterByAlphabet = (key) => {
-            product.setCurrentAlphabetOrder(key)
+            productStore.setCurrentAlphabetOrder(key)
         }
 
         return (
@@ -30,15 +30,15 @@ const AlphabetDropdown = observer(() => {
                 <Row className="mt-5">
                     <Dropdown>
                         <Dropdown.Toggle style={{background: 'none', border: 'none', color: 'grey'}} id="dropdown-basic">
-                            {ALPHABET_ORDER[product.currentAlphabetOrder] || "sort "}
+                            {ALPHABET_ORDER[productStore.currentAlphabetOrder] || "sort "}
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             {
-                                product.alphabetOrders.map(
+                                productStore.alphabetOrders.map(
                                     ([key, value]) =>
                                         <Dropdown.Item key={key}
                                                        onClick={() => chooseItem(key)}
-                                                       style={key === product.currentAlphabetOrder ? {backgroundColor: 'lightblue'} : {}}
+                                                       style={key === productStore.currentAlphabetOrder ? {backgroundColor: 'lightblue'} : {}}
                                         >
                                         {value}
                                         </Dropdown.Item>

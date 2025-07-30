@@ -5,11 +5,11 @@ import {Context} from "../index";
 
 const CategoryMenu = observer(() => {
 
-        const {product} = useContext(Context)
+        const {productStore} = useContext(Context)
         const [clicked, setClicked] = useState(false)
 
         const chooseItem = (cat) => {
-            if(clicked && cat.name === product.currentCategory?.name) {
+            if(clicked && cat.name === productStore.currentCategory?.name) {
                 setClicked(false)
                 filterByCategory(null)
             }
@@ -20,8 +20,8 @@ const CategoryMenu = observer(() => {
         }
 
         const filterByCategory = (cat) => {
-            product.setCurrentCategory(cat)
-            product.setPage(1)
+            productStore.setCurrentCategory(cat)
+            productStore.setPage(1)
         }
 
         return (
@@ -29,14 +29,14 @@ const CategoryMenu = observer(() => {
                 <Row className="mt-5">
                     <Dropdown>
                         <Dropdown.Toggle style={{background: 'none', border: 'none', color: 'grey'}} id="dropdown-basic">
-                            {product.currentCategory ? product.currentCategory.name : "Category"}
+                            {productStore.currentCategory ? productStore.currentCategory.name : "Category"}
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             {
-                                product.categories.map(
+                                productStore.categories.map(
                                     cat => <Dropdown.Item key={cat.name}
                                                           onClick={() => chooseItem(cat)}
-                                                          style={clicked && cat.name === product.currentCategory?.name ? {backgroundColor: 'lightblue'} : {}}
+                                                          style={clicked && cat.name === productStore.currentCategory?.name ? {backgroundColor: 'lightblue'} : {}}
                                             >
                                             {cat.name}
                                             </Dropdown.Item>

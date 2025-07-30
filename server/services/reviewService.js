@@ -41,11 +41,24 @@ class ReviewService {
         return review
     }
 
-    async update(id, body) {
-        const updatedReview = await Review.findByIdAndUpdate(id,  body, {new:true} );
-        if(!updatedReview) {
+    async update(productId, id, body) {
+        const reviewToUpdate = await Review.findByIdAndUpdate(id,  body, {new:false} );
+        if(!reviewToUpdate) {
             throw ApiError.NotFoundError("Review not found");
         }
+        const product = await Product.findById(productId);
+        if(!product) {
+            throw ApiError.NotFoundError("Product not found");
+        }
+        const totalReviews = product.total_reviews;
+        if(totalReviews === 1) {
+            product.rating = body.rating;
+        }
+        else {
+            product.rating = (product.rating * totalReviews - reviewToUpdate.rating + body.rating) / totalReviews
+        }
+        await product.save()
+        const updatedReview = await Review.findById(id)
         return updatedReview;
     }
 

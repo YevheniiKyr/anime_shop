@@ -42,11 +42,12 @@ class ProductService {
             sortOrder = SortOrders[order];
             console.log("sortOrder", sortOrder);
         }
-        let products = await Product.find(filter)
+        const filteredCount = await Product.find(filter).count();
+
+        const products = await Product.find(filter)
             .sort({[sortBy]: sortOrder})
             .skip(offset)
             .limit(limit);
-        const filteredCount = products.length
         return {products, count: filteredCount};
     }
 

@@ -16,10 +16,10 @@ root.render(
     <React.StrictMode>
         <Context.Provider
             value={{
-                user: new UserStore(),
-                product: new ProductStore(),
-                basket: new BasketStore(),
-                reviewsContext: new ReviewStore(),
+                userStore: new UserStore(),
+                productStore: new ProductStore(),
+                basketStore: new BasketStore(),
+                reviewStore: new ReviewStore(),
                 optionsStore: new OptionsStore()
             }}>
             <App/>

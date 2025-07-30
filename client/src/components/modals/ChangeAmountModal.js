@@ -2,24 +2,25 @@ import React, {useContext, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import {Context} from "../../index";
 import {useNavigate} from "react-router-dom";
-import {addProductToCart} from "../../http/cartApi";
+import {setProductsToCart} from "../../http/cartApi";
 import {BASKET_ROUTE} from "../../utils/constRoutes";
 import {Button, Card, Container, Modal} from "react-bootstrap";
 import AmountController from "../AmountController";
 import CloudinaryImage from "../CloudinaryImage";
+import {getProductsAfterAdditionToCart} from "../../services/cartService";
 
 const ChangeAmountModal = observer(({product, show, onHide, amount, setAmount}) => {
 
-    const {basket, user} = useContext(Context)
+    const {basketStore, userStore} = useContext(Context)
     const [amnt, setAmnt] = useState(amount)
     const navigate = useNavigate()
 
     const addToCart = async () => {
         const newItem = {product: product._id, amount:  amnt - amount }
-        const products =  [...basket.products, newItem]
-        await addProductToCart(user.user._id, products)
-        basket.setProducts(products);
-        navigate(BASKET_ROUTE + '/' + basket.basket._id)
+        const products = getProductsAfterAdditionToCart(newItem, basketStore)
+        await setProductsToCart(userStore.user._id, products)
+        basketStore.setProducts(products);
+        navigate(BASKET_ROUTE + '/' + basketStore.basketId)
         setAmount(amnt)
         onHide()
     }
@@ -38,7 +39,7 @@ const ChangeAmountModal = observer(({product, show, onHide, amount, setAmount}) 
                         width={300}
                         height={300}
                         alt={`Image of ${product.name}`}
-                        style={{width: '12rem', height: '10rem', alignSelf: "center", marginTop: "1rem"}}
+                        styles={{width: '12rem', height: '10rem', alignSelf: "center", marginTop: "1rem"}}
                     />
                     <Card.Body>
                         <Card.Text>

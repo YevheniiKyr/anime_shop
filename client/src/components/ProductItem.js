@@ -13,24 +13,20 @@ const ProductItem = observer(({product}) => {
 
     const navigate = useNavigate()
     const [isHovered, setIsHovered] = useState(false);
-    const {user} = useContext(Context)
+    const {userStore, productStore} = useContext(Context)
     const [cartVisible, setCartVisible] = useState(false)
     const [authorizeVisible, setAuthorizeVisible] = useState(false)
-    const {product: products} = useContext(Context)
 
-    useEffect(() => {
-        console.log(product.rating)
-    }, []);
     return (
         <Col lg={3} md={4} sm={6} xs={12}>
-            {<Container className={products.limit === 2 && "d-flex m-auto justify-content-center"}>
+            {<Container className={productStore.limit === 2 && "d-flex m-auto justify-content-center"}>
                 <Card
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                     onClick={(event) => {
                         if (event.target.tagName !== 'BUTTON') {
                             console.log("NOT A BUTTON")
-                            products.setCurrentProduct(product)
+                            productStore.setCurrentProduct(product)
                             navigate(PRODUCT_ROUTE + '/' + product._id)
                         }
                     }}
@@ -49,7 +45,7 @@ const ProductItem = observer(({product}) => {
                         width={300}
                         height={300}
                         alt={`Image of ${product.name}`}
-                        style={{width: '10rem', height: '12rem', alignSelf: "center", marginTop: "1rem"}}
+                        styles={{width: '10rem', height: '12rem', alignSelf: "center", marginTop: "1rem"}}
                     />
                     <Card.Body>
                         <Card.Title
@@ -78,7 +74,7 @@ const ProductItem = observer(({product}) => {
                         </Container>
                         <Button
                             className={"d-flex m-auto btn-success"}
-                            onClick={() => user.isAuth ? setCartVisible(true) : setAuthorizeVisible(true)}
+                            onClick={() => userStore.isAuth ? setCartVisible(true) : setAuthorizeVisible(true)}
                         >
                             to cart
                         </Button>

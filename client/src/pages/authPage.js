@@ -5,28 +5,22 @@ import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import {LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE} from "../utils/constRoutes";
 import {login, registration} from "../http/authApi";
-import {fetchBasket} from "../http/cartApi";
 
 const Auth = observer(() => {
 
     const navigate = useNavigate()
     const location = useLocation()
     const isRegistration = location.pathname === REGISTRATION_ROUTE
-    const {user, basket} = useContext(Context)
+    const {userStore} = useContext(Context)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const signUp = async () => {
         try {
             const response = await registration(email, password)
-            user.setUser(response)
-            user.setIsAuth(true)
-            fetchBasket(response._id)
-                .then(data => {
-                    basket.setBasket(data)
-                    basket.setProducts(data.products)
-                })
-                .then(() => navigate(SHOP_ROUTE))
+            userStore.setUser(response)
+            userStore.setIsAuth(true)
+            navigate(SHOP_ROUTE)
         } catch (e) {
             alert(e.response.data.message)
         }
@@ -35,20 +29,12 @@ const Auth = observer(() => {
     const signIn = async () => {
         try {
             const user_data = await login(email, password);
-            user.setUser(user_data)
-            user.setIsAuth(true)
+            userStore.setUser(user_data)
+            userStore.setIsAuth(true)
+            navigate(SHOP_ROUTE)
         } catch (e) {
             alert("Wrong email or password")
         }
-        try {
-            const data = await fetchBasket(user.user._id);
-            basket.setBasket(data)
-            basket.setProducts(data.products)
-            navigate(SHOP_ROUTE)
-        } catch (e) {
-            alert("Basket functionality is not working currently")
-        }
-
     }
 
     return (

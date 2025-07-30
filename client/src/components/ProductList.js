@@ -7,14 +7,14 @@ import {fetchRecommendations, findSimilarByAll} from "../http/recApi";
 
 const ProductList = observer(({recommendations, prod_id}) => {
 
-        const {product, user} = useContext(Context)
+        const {productStore, userStore} = useContext(Context)
         const [rec, setRec] = useState([])
         const [loading, setLoading] = useState(true)
 
         useEffect(() => {
             if (recommendations) {
-                if (prod_id) findSimilarByAll(user.user._id, prod_id).then(data => setRec(data))
-                else fetchRecommendations(user.user._id).then(data => setRec(data))
+                if (prod_id) findSimilarByAll(userStore.user._id, prod_id).then(data => setRec(data))
+                else fetchRecommendations(userStore.user._id).then(data => setRec(data))
             }
             setLoading(false)
         }, [])
@@ -27,7 +27,7 @@ const ProductList = observer(({recommendations, prod_id}) => {
                 </Row>
                 :
                 <Row className="d-flex m-auto ">
-                    {product.products.map(prod => <ProductItem key={prod._id} product={prod}/>)}
+                    {productStore.products.map(prod => <ProductItem key={prod._id} product={prod}/>)}
                 </Row>
         );
     }

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Container} from "react-bootstrap";
-import AddCategory from "../Components/modals/AddCategory";
-import AddProduct from "../Components/modals/AddProduct";
+import AddCategory from "../components/modals/AddCategory";
+import AddProduct from "../components/modals/AddProduct";
 import {useNavigate} from "react-router-dom";
 import {SHOW_ORDERS_ROUTE} from "../utils/constRoutes";
 
