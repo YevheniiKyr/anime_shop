@@ -34,7 +34,7 @@ class CategoryService {
     }
 
     async update(id, category) {
-        const existingCategory = await Category.findByIdAndUpdate(id, category, {new: true})
+        const existingCategory = await Category.findByIdAndUpdate(id, category, {new: true, runValidators: true})
         if (!existingCategory) {
             throw ApiError.NotFoundError("Category not found")
         }

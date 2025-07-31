@@ -55,7 +55,7 @@ const OrderItem = observer(({order, idx, orders, setOrders}) => {
                     </Button>
                     <Button
                         className="btn-success"
-                        onClick={() => changeStatus(OrderStatuses.Fulfilled)}
+                        onClick={() => changeStatus(OrderStatuses.Delivered)}
                         size="sm"
                     >
                         Delivered

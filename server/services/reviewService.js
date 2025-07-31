@@ -42,7 +42,7 @@ class ReviewService {
     }
 
     async update(productId, id, body) {
-        const reviewToUpdate = await Review.findByIdAndUpdate(id,  body, {new:false} );
+        const reviewToUpdate = await Review.findByIdAndUpdate(id,  body, {new:false, runValidators: true} );
         if(!reviewToUpdate) {
             throw ApiError.NotFoundError("Review not found");
         }

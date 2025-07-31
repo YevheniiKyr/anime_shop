@@ -3,7 +3,7 @@ const OrderStatuses = Object.freeze({
     Canceled: 'canceled',
     Pending: 'pending',
     OnTheWay: 'on_the_way',
-    Fulfilled: 'fulfilled',
+    Delivered: 'delivered',
 })
 
 module.exports = OrderStatuses

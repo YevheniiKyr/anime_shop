@@ -60,7 +60,7 @@ class ProductService {
     }
 
     async update(id, body) {
-        const updatedProduct = await Product.findByIdAndUpdate(id, body, {new: true});
+        const updatedProduct = await Product.findByIdAndUpdate(id, body, {new: true, runValidators: true});
         if (!updatedProduct) {
             throw ApiError.NotFoundError("Product not found")
         }

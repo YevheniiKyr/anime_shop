@@ -1,5 +1,4 @@
 const Order = require("../models/order");
-const Product = require("../models/product");
 const ApiError = require("../exceptions/apiError");
 
 class OrderService {
@@ -24,7 +23,7 @@ class OrderService {
 
     async update(id, order){
 
-        const updatedOrder = await Order.findByIdAndUpdate(id, order, { new: true });
+        const updatedOrder = await Order.findByIdAndUpdate(id, order, { new: true, runValidators: true });
         if (!updatedOrder) {
             throw ApiError.NotFoundError(`Order with id ${id} not found`);
         }

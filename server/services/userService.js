@@ -39,7 +39,7 @@ class UserService {
             body.role = user.role
         }
         const existingUser = await User.findOne({email: body.email});
-        if(existingUser && (existingUser._id != user._id)) {
+        if(existingUser && (existingUser._id !== user._id)) {
             throw ApiError.BadRequestError(`Email is already taken`)
         }
         const updatedUser = await User.findByIdAndUpdate(id, body, {new: true, runValidators: true});
