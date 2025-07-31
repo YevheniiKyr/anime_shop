@@ -4,21 +4,13 @@ const ApiError = require("../exceptions/apiError");
 
 class OrderService {
 
-    async countTotal(body){
-        const productIds = body.products.map(product => product.product);
-        const products = await Product.find({_id: {$in : productIds}});
-        const total = body.products.reduce((total, product) => total + products.find(p => p._id == product.product).price * product.amount, 0);
-        return total;
-    }
-
     async create(userId, body) {
-        const total = await this.countTotal(body);
-        const order = await Order.create({...body, user: userId, total})
+        const order = await Order.create({...body, user: userId})
         return order
     }
 
     async getAll(){
-        const orders = await Order.find({});
+        const orders = await Order.find({}).populate('user');
         return orders;
     }
 
@@ -31,8 +23,8 @@ class OrderService {
     }
 
     async update(id, order){
-        const total = await this.countTotal(order);
-        const updatedOrder = await Order.findByIdAndUpdate(id, {...order, total}, { new: true });
+
+        const updatedOrder = await Order.findByIdAndUpdate(id, order, { new: true });
         if (!updatedOrder) {
             throw ApiError.NotFoundError(`Order with id ${id} not found`);
         }

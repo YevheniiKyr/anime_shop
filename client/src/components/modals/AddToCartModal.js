@@ -1,13 +1,13 @@
 import React, {useContext, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import {Button, Card, Container, Modal} from "react-bootstrap";
-import {setProductsToCart} from "../../http/cartApi";
+import {setProductsToBasket} from "../../http/basketApi";
 import AmountController from "../AmountController";
 import {Context} from "../../index";
 import {useNavigate} from "react-router-dom";
 import {BASKET_ROUTE} from "../../utils/constRoutes";
 import CloudinaryImage from "../CloudinaryImage";
-import {getProductsAfterAdditionToCart} from "../../services/cartService";
+import {getProductsAfterAdditionToCart} from "../../services/basketService";
 
 
 const AddToCartModal = observer(({product, show, onHide}) => {
@@ -19,9 +19,9 @@ const AddToCartModal = observer(({product, show, onHide}) => {
     const addToCart = async () => {
         const newItem = {product: product._id, amount: amount}
         const products = getProductsAfterAdditionToCart(newItem, basketStore)
-        const updatedProducts = await setProductsToCart(userStore.user._id, products)
-        basketStore.setProducts(updatedProducts)
-        navigate(BASKET_ROUTE + '/' + basketStore.basketId)
+        const updatedBasket = await setProductsToBasket(userStore.user._id, products)
+        basketStore.setProducts(updatedBasket.products)
+        navigate(BASKET_ROUTE)
     }
 
     return (

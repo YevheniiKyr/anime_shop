@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {Button, Container} from "react-bootstrap";
-import AddCategory from "../components/modals/AddCategory";
-import AddProduct from "../components/modals/AddProduct";
+import AddCategory from "./modals/AddCategory";
+import AddProduct from "./modals/AddProduct";
 import {useNavigate} from "react-router-dom";
-import {SHOW_ORDERS_ROUTE} from "../utils/constRoutes";
+import {SHOW_ORDERS_ROUTE} from "../../utils/constRoutes";
 
-const AdminPage = () => {
+const Index = () => {
 
     const[categoryVisible, setCategoryVisible] = useState(false)
     const[productVisible, setProductVisible] = useState(false)
@@ -47,4 +47,4 @@ const AdminPage = () => {
     );
 };
 
-export default AdminPage;
+export default Index;

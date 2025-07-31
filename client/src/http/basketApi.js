@@ -5,7 +5,7 @@ export const fetchBasket = async (userId) => {
     return data
 }
 
-export const setProductsToCart = async (userId, products) => {
+export const setProductsToBasket = async (userId, products) => {
     const {data} = await $authHost.put(`user/${userId}/basket/`, {
         products: products,
     })
@@ -13,8 +13,6 @@ export const setProductsToCart = async (userId, products) => {
 }
 
 export const clearBasket = async (userId) => {
-    const {data} = await $authHost.put(`user/${userId}/basket`, {
-        productId: "all"
-    })
+    const {data} = setProductsToBasket(userId, [])
     return data
 }

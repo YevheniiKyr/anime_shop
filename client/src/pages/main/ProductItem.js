@@ -1,13 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Button, Card, Col, Container} from "react-bootstrap";
-import {PRODUCT_ROUTE} from "../utils/constRoutes";
+import {PRODUCT_ROUTE} from "../../utils/constRoutes";
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
-import {Context} from "../index";
-import AddToCartModal from "./modals/AddToCartModal";
-import AuthorizeFirstModal from "./modals/AuthorizeFirstModal";
-import RatingAlt from "./RatingAlt";
-import CloudinaryImage from "./CloudinaryImage";
+import {Context} from "../../index";
+import AddToCartModal from "../../components/modals/AddToCartModal";
+import AuthorizeFirstModal from "../../components/modals/AuthorizeFirstModal";
+import RatingAlt from "../../components/RatingAlt";
+import CloudinaryImage from "../../components/CloudinaryImage";
 
 const ProductItem = observer(({product}) => {
 
@@ -36,15 +36,15 @@ const ProductItem = observer(({product}) => {
                         marginTop: "3rem",
                         border: 'none',
                         boxShadow: isHovered ? '0 4px 8px rgba(0,0,0,0.2)  ' : 'none',
-                        transform: isHovered ? 'scale(1.2)' : 'none',
-                        transition: isHovered ? 'all 0.3s ease-in-out' : 'none',
+                        // transform: isHovered ? 'scale(1.1)' : 'none',
+                        // transition: isHovered ? 'all 0.6s ease-in-out' : 'none',
                         zIndex: isHovered ? 1 : 0
                     }}>
                     <CloudinaryImage
                         publicId={product.img}
                         width={300}
                         height={300}
-                        alt={`Image of ${product.name}`}
+                        alt={`Image of ${product.title}`}
                         styles={{width: '10rem', height: '12rem', alignSelf: "center", marginTop: "1rem"}}
                     />
                     <Card.Body>

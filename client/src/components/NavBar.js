@@ -42,7 +42,7 @@ const NavBar = observer(() => {
                     <FcShop size={50}/>
                 </Button>
 
-                {userStore.isAuth && basketStore.basketId ?
+                {userStore.isAuth?
                     (
                         <Nav className="ml-auto ">
                             <Button className={"me-2"}
@@ -54,7 +54,7 @@ const NavBar = observer(() => {
                                 size={"lg"}
                                 variant={"light"}
                                 style={{marginRight: 15, border: 'none'}}
-                                onClick={() => navigate(BASKET_ROUTE + '/' + basketStore.basketId)}
+                                onClick={() => navigate(BASKET_ROUTE)}
                             >
                                 <img className={"d-flex m-auto"}
                                      src={`${require("../static/shopping_cart_1.png")}`} width={"35px"} alt={"basket"}/>
@@ -63,7 +63,7 @@ const NavBar = observer(() => {
                                 size={"lg"}
                                 variant={"light"}
                                 style={{marginRight: 15, border: 'none'}}
-                                onClick= {() => navigate(USER_ROUTE + '/' + userStore.user._id)}
+                                onClick= {() => navigate(USER_ROUTE)}
                             >
                                 <CiUser/>
                             </Button>

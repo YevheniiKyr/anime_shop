@@ -14,7 +14,7 @@ const OrderSchema = new mongoose.Schema(
             house_num: {type: String},
             apartment_num: {type: String, required: false}
         },
-        status: {type: String, default: OrderStatuses.Pending, enum: Object.values(OrderStatuses)},
+        status: {type: String, default: OrderStatuses.Pending, enum: Object.values(OrderStatuses), required: true},
         total: {type: Number, default: 0}
     },
     {timestamps: true}

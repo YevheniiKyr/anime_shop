@@ -1,4 +1,5 @@
 const authService = require('../services/authService')
+const {verify} = require("jsonwebtoken");
 
 class AuthController {
 
@@ -25,7 +26,7 @@ class AuthController {
 
     async verify(req, res, next) {
         try {
-            const token = authService.genJWT(req.user._id, req.user.email, req.user.role)
+            const token = await authService.verify(req.user)
             return res.json({token}).status(200)
         } catch(e) {
             next(e)

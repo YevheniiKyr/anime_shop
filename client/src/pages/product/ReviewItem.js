@@ -1,13 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {fetchOneProduct} from "../http/productApi";
-import {deleteReview, updateReview} from "../http/reviewApi";
-import {fetchUser} from "../http/userApi";
+import {fetchOneProduct} from "../../http/productApi";
+import {deleteReview, updateReview} from "../../http/reviewApi";
+import {fetchUser} from "../../http/userApi";
 import {Button, Card, Col, Container, Form, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
-import {Context} from "../index";
+import {Context} from "../../index";
 import {MdEdit} from "react-icons/md"
 import {AiTwotoneDelete} from "react-icons/ai"
-import RatingAlt from "./RatingAlt";
+import RatingAlt from "../../components/RatingAlt";
 
 const ReviewItem = observer(({review}) => {
 

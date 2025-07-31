@@ -1,16 +1,16 @@
 import React, {useContext, useState} from 'react';
 import {Button, Card, Col, Container, Row} from "react-bootstrap";
-import {PRODUCT_ROUTE} from "../utils/constRoutes";
+import {PRODUCT_ROUTE} from "../../utils/constRoutes";
 import {useNavigate} from "react-router-dom";
-import {setProductsToCart} from "../http/cartApi";
-import {Context} from "../index";
+import {setProductsToBasket} from "../../http/basketApi";
+import {Context} from "../../index";
 
 import {observer} from "mobx-react-lite";
-import CircleNumber from "./CircleNumber";
-import ChangeAmountModal from "./modals/ChangeAmountModal";
+import CircleNumber from "../../components/CircleNumber";
+import ChangeAmountModal from "../../components/modals/ChangeAmountModal";
 import {MdEdit} from "react-icons/md";
-import CloudinaryImage from "./CloudinaryImage";
-import {getProductsAfterDeletionFromCart} from "../services/cartService";
+import CloudinaryImage from "../../components/CloudinaryImage";
+import {getProductsAfterDeletionFromCart} from "../../services/basketService";
 
 const ProductItemInBasket = observer(({product, amount}) => {
 
@@ -19,8 +19,9 @@ const ProductItemInBasket = observer(({product, amount}) => {
 
         const deleteProductFromCart = async (productId) => {
             const products = getProductsAfterDeletionFromCart(productId, basketStore)
-            const basket = await setProductsToCart(userStore.user._id, products);
+            const basket = await setProductsToBasket(userStore.user._id, products);
             basketStore.setProducts(basket.products);
+            console.log("deleted")
         }
 
 

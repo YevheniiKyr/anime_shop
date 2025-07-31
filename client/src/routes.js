@@ -11,28 +11,28 @@ import {
     SIMILAR_PRODUCTS_ROUTE,
     USER_ROUTE
 } from "./utils/constRoutes";
-import mainPage from "./pages/mainPage";
-import authPage from "./pages/authPage";
-import productPage from "./pages/productPage";
-import basketPage from "./pages/basketPage";
-import AdminPage from "./pages/adminPage";
-import orderPage from "./pages/orderPage";
-import manageOrdersPage from "./pages/manageOrdersPage";
-import userPage from "./pages/userPage";
+import mainPage from "./pages/main";
+import authPage from "./pages/auth";
+import productPage from "./pages/product";
+import basketPage from "./pages/basket";
+import Index from "./pages/admin";
+import orderPage from "./pages/order";
+import manageOrdersPage from "./pages/orders";
+import userPage from "./pages/user";
 import recommendationsPage from "./pages/recommendationsPage";
 import similarProductsPage from "./pages/similarProductsPage";
 
 export const authRoutes = [
     {
-        path: BASKET_ROUTE + '/:id',
+        path: BASKET_ROUTE,
         Component: basketPage
     },
     {
-        path: ORDER_ROUTE + '/:id',
+        path: ORDER_ROUTE,
         Component: orderPage
     },
     {
-        path: USER_ROUTE + '/:id',
+        path: USER_ROUTE,
         Component: userPage
     },
     {
@@ -48,7 +48,7 @@ export const authRoutes = [
 export const adminRoutes = [
     {
         path: ADMIN_ROUTE,
-        Component: AdminPage
+        Component: Index
     },
     {
         path: SHOW_ORDERS_ROUTE,

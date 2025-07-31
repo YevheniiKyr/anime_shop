@@ -2,8 +2,8 @@ import {Button, Form, Modal} from "react-bootstrap";
 import {useContext, useState} from "react";
 
 import {observer} from "mobx-react-lite";
-import {Context} from "../../index";
-import {createCategory} from "../../http/categoryApi";
+import {Context} from "../../../index";
+import {createCategory} from "../../../http/categoryApi";
 
 
 const AddCategory = observer (({show, onHide}) => {

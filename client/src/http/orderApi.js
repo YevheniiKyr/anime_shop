@@ -6,7 +6,7 @@ export const fetchOrder = async (id) => {
 }
 
 export const createOrder = async (order) => {
-    const {data} = await $authHost.post('order/', {order})
+    const {data} = await $authHost.post('order/', order)
     return data
 
 }
@@ -16,7 +16,7 @@ export const fetchOrders = async () => {
     return data
 }
 
-export const updateOrderStatus = async (order) => {
+export const updateOrder = async (order) => {
     const {data} = await $authHost.put('order/' + order._id, order)
     return data
 }

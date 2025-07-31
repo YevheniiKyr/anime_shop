@@ -6,9 +6,9 @@ const Basket = require("../models/basket");
 
 class AuthService {
 
-     genJWT = (_id, email, role) => {
+     genJWT = (_id, email, role, createdAt) => {
         return jwt.sign(
-            {_id, email, role},
+            {_id, email, role, createdAt},
             process.env.SECRET_KEY,
             {expiresIn: '12h'}
         )
@@ -23,7 +23,8 @@ class AuthService {
         if (!equalPasswords) {
             throw ApiError.BadRequestError("Wrong email or password");
         }
-        const token = this.genJWT(user._id, user.email, user.role)
+        console.log(user)
+        const token = this.genJWT(user._id, user.email, user.role, user.createdAt)
         return token;
     }
 
@@ -40,8 +41,12 @@ class AuthService {
         const hashPass = await bcrypt.hash(password, 3)
         const user = await User.create({email: email, password: hashPass, role: role})
         const basket = await Basket.create({user: user._id})
-        const token = this.genJWT(user._id, user.email, user.role)
+        const token = this.genJWT(user._id, user.email, user.role, user.createdAt)
+        return token;
+    }
 
+    async verify(user){
+        const token = this.genJWT(user._id, user.email, user.role, user.createdAt);
         return token;
     }
 }

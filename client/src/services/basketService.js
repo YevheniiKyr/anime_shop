@@ -16,5 +16,5 @@ export const getProductsAfterAdditionToCart = (newItem, basket) => {
 }
 
 export const getProductsAfterDeletionFromCart = (id, basket) => {
-    return basket.products.filter(p => p._id !== id)
+    return basket.products.filter(p => p.product._id !== id)
 }

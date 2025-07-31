@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Row} from "react-bootstrap";
-import {Context} from "../index";
+import {Context} from "../../index";
 import ProductItem from "./ProductItem";
 import {observer} from "mobx-react-lite";
-import {fetchRecommendations, findSimilarByAll} from "../http/recApi";
+import {fetchRecommendations, findSimilarByAll} from "../../http/recommendApi";
 
 const ProductList = observer(({recommendations, prod_id}) => {
 

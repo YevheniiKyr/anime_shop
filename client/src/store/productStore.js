@@ -94,7 +94,6 @@ export default class ProductStore {
     setCurrentAlphabetOrder(value) {
         if(!Object.keys(ALPHABET_ORDER).includes(value) && value !== null) return
         this._currentAlphabetOrder = value;
-        console.log("finally set")
     }
 
     setCurrentProduct(value) {

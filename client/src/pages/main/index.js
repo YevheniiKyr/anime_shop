@@ -1,20 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Button, Col, Container, Form} from "react-bootstrap";
-import CategoryMenu from "../components/CategoryMenu";
-import ProductList from "../components/ProductList";
+import CategoryMenu from "./CategoryMenu";
+import ProductList from "./ProductList";
 import {observer} from "mobx-react-lite";
-import {Context} from "../index";
-import {fetchProducts} from "../http/productApi";
-import {fetchCategories} from  "../http/categoryApi"
-import Pages from "../components/Pages";
+import {Context} from "../../index";
+import {fetchProducts} from "../../http/productApi";
+import {fetchCategories} from "../../http/categoryApi"
+import Pages from "../../components/Pages";
 import {useMediaQuery} from 'react-responsive';
 import {useNavigate} from "react-router-dom";
-import PriceDropdown from "../components/PriceDropdown";
-import AlphabetDropdown from "../components/AlphabetDropdown";
+import PriceDropdown from "./PriceDropdown";
+import AlphabetDropdown from "./AlphabetDropdown";
 
-const MainPage = observer(() => {
 
-        const [loading, setLoading] = useState(true);
+const Index = observer(() => {
 
         const isExtraSmallScreen = useMediaQuery({maxWidth: 575.99});
         const isSmallScreen = useMediaQuery({minWidth: 576, maxWidth: 767.99});
@@ -24,6 +23,7 @@ const MainPage = observer(() => {
 
         const navigate = useNavigate()
         const {productStore, optionsStore} = useContext(Context)
+        const [loading, setLoading] = useState(false)
 
         useEffect(() => {
             let path = optionsStore.path
@@ -35,12 +35,8 @@ const MainPage = observer(() => {
             if (isSmallScreen) productStore.setLimit(4)
             if (isMediumScreen) productStore.setLimit(6)
             if (isLargeScreen || isExtraLargeScreen) productStore.setLimit(8)
-            setLimit(productStore.limit)
         }, [isSmallScreen, isMediumScreen, isLargeScreen, isExtraSmallScreen, productStore])
 
-
-        const [limit, setLimit] = useState(productStore.limit)
-        const [more, setMore] = useState(false)
 
         const resetFilters = () => {
             productStore.setCurrentCategory(null)
@@ -49,15 +45,6 @@ const MainPage = observer(() => {
             productStore.setCurrentAlphabetOrder(null)
         }
 
-        const showMore = () => {
-            productStore.setLimit(20)
-            setMore(true)
-        }
-
-        const showLess = () => {
-            productStore.setLimit(limit)
-            setMore(false)
-        }
         const getProducts = async () => {
             const productsData = await fetchProducts(
                 productStore.currentCategory,
@@ -71,20 +58,19 @@ const MainPage = observer(() => {
             productStore.setTotalCount(productsData.count)
         }
 
+        const getCategories = async () => {
+            const categories = await fetchCategories()
+            productStore.setCategories(categories)
+        }
+
         useEffect(() => {
                 setLoading(true)
-                const getCategories = async () => {
-                    const categories = await fetchCategories()
-                    productStore.setCategories(categories)
-                }
                 const promises = []
                 promises.push(getCategories())
                 promises.push(getProducts())
                 Promise.all(promises).catch(error => console.log(error)).finally(() => setLoading(false))
             }
-            , []
-        )
-        ;
+            , [])
 
         useEffect(() => {
             setLoading(true)
@@ -98,9 +84,9 @@ const MainPage = observer(() => {
             productStore.currentAlphabetOrder
         ]);
 
-        // if (loading) {
-        //     return <div> Loading ... </div>
-        // }
+        if (loading) {
+            return <></>;
+        }
         return (
             <>
                 <Container className={"d-flex"}>
@@ -124,9 +110,6 @@ const MainPage = observer(() => {
                     <Form style={{width: "100%"}}>
                         <Col md={12} lg={12} xs={12} xl={12}>
                             <ProductList/>
-                            <Button
-                                className={'btn-light'}
-                                onClick={more ? showLess : showMore}>{more ? "less <" : "more >"}</Button>
                             <Pages/>
                         </Col>
                     </Form>
@@ -136,4 +119,4 @@ const MainPage = observer(() => {
     }
 )
 
-export default MainPage;
+export default Index;

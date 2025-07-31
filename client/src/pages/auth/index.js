@@ -2,16 +2,17 @@ import React, {useContext, useState} from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom'
 import {Button, Card, Container, Form, Row} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
-import {Context} from "../index";
-import {LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE} from "../utils/constRoutes";
-import {login, registration} from "../http/authApi";
+import {Context} from "../../index";
+import {LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE} from "../../utils/constRoutes";
+import {login, registration} from "../../http/authApi";
+import {fetchBasket} from "../../http/basketApi";
 
 const Auth = observer(() => {
 
     const navigate = useNavigate()
     const location = useLocation()
     const isRegistration = location.pathname === REGISTRATION_ROUTE
-    const {userStore} = useContext(Context)
+    const {userStore, basketStore} = useContext(Context)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -28,9 +29,12 @@ const Auth = observer(() => {
 
     const signIn = async () => {
         try {
-            const user_data = await login(email, password);
-            userStore.setUser(user_data)
+            const user = await login(email, password);
+            userStore.setUser(user)
             userStore.setIsAuth(true)
+            const basket = await fetchBasket(user._id)
+            basketStore.setProducts(basket.products)
+            basketStore.setBasketId(basket._id)
             navigate(SHOP_ROUTE)
         } catch (e) {
             alert("Wrong email or password")
