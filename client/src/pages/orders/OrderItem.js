@@ -27,7 +27,7 @@ const OrderItem = observer(({order, idx, orders, setOrders}) => {
         >
             <td> {idx + 1}</td>
             <td> {order.user.email} </td>
-            <td> {order.address.street + " " + order.address.house_num} </td>
+            <td> {order.address} </td>
             <td> {order.total || 1000}</td>
             <td> {order.status} </td>
             <td>
