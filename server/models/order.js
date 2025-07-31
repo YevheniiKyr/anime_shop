@@ -11,11 +11,7 @@ const OrderSchema = new Schema(
                 product: {type: Types.ObjectId, ref: 'Product'},
                 amount: {type: Number, required: true}
             }],
-        address: {
-            street: {type: String},
-            house_num: {type: String},
-            apartment_num: {type: String, required: false}
-        },
+        address: {type: String, required: true},
         status: {type: String, default: OrderStatuses.Pending, enum: Object.values(OrderStatuses), required: true},
         total: {type: Number, default: 0}
     },

@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {SHOP_ROUTE} from "../../utils/constRoutes";
 import {clearBasket} from "../../http/basketApi";
 import OrderTableRow from "./OrderTableRow";
+import shopLogo from "../../static/himars.jpg";
 
 const MyTh = styled.th`
     vertical-align: middle;
@@ -18,9 +19,7 @@ const MyTh = styled.th`
 const Index = () => {
 
     const {basketStore, userStore} = useContext(Context)
-    const KEY = process.env.REACT_APP_STRIPE
     const [total, setTotal] = useState(0)
-    const [stripeToken, setStripeToken] = useState('')
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -29,20 +28,21 @@ const Index = () => {
         setTotal(sum)
     })
 
-    const onToken = (token) => {
-        setStripeToken(token)
-    };
-
-    const onOrderApprove = async (billingAddress) => {
+    const handleToken = async (token) => {
+        const address =  token.card.address_country + ', ' + token.card.address_city + ', ' + token.card.address_line1
+        console.log("add", address)
+        console.log("token", token)
         await createOrder({
             user: userStore.user._id,
             products: basketStore.products,
-            address: billingAddress,
+            address: address,
             total: total
         })
         await clearBasket(basketStore.basketId)
+        basketStore.setProducts([])
         navigate(SHOP_ROUTE)
-    }
+    };
+
 
     return (
         <Container>
@@ -77,14 +77,13 @@ const Index = () => {
                 </Card.Text>
             </Card>
             <StripeCheckout
-                name="Best Shop"
-                image={require("../../static/himars.jpg")}
+                stripeKey={process.env.REACT_APP_STRIPE_PUBLIC}
+                token={handleToken}
                 billingAddress
                 shippingAddress
-                description={`Your total is ${total}`}
                 amount={total * 100}
-                stripeKey={KEY}
-                token={onToken}
+                name="Anime shop"
+                image={shopLogo + ''}
             >
                 <Button
                     style={{
@@ -92,7 +91,6 @@ const Index = () => {
                         background: "#F59B56", border: "none"
                     }}
                     size={"lg"}
-                    onClick={() => onOrderApprove({street: "Shevchenka", house_num: 40})}
                 >
                     Підтвердити замовлення
                 </Button>
