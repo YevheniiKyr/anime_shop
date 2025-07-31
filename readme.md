@@ -17,35 +17,44 @@ On the website clients can buy products that they like.
   Manage orders (delete, change status)
 
 ## Technologies
-MERN stack:
-MongoDB - database
-Express JS, Node JS - backend
-React JS - frontend.
-React state manager - Mobx
+MERN stack:  
+Frontend - React JS  
+State manager - Mobx  
+Backend - Express JS, Node JS  
+Database - MongoDB  
 
 
-## Demonstartion
+## Demonstartion  
 ### Login page
-![image](https://github.com/YevheniiKyr/anime_shop/assets/84139553/718d00da-ec4b-4d41-b350-7670596160f6)
+<img width="1013" height="567" alt="image" src="https://github.com/user-attachments/assets/fc274c0a-de38-4de8-810d-360626be0237" />
 
 ### Main page
-![image](https://github.com/YevheniiKyr/anime_shop/assets/84139553/ded4a369-cd38-45fd-9a86-9e9db4e3bf30)
-![image](https://github.com/YevheniiKyr/anime_shop/assets/84139553/f38fe2ad-492d-42ea-b928-8ed96151c833)
+<img width="1710" height="858" alt="image" src="https://github.com/user-attachments/assets/1307669a-9b3f-4f69-aa95-4f698c224c5b" />
 
 ### Basket page
-![image](https://github.com/YevheniiKyr/anime_shop/assets/84139553/8191a8da-0b67-4431-95e5-091c04dd26e5)
+<img width="1727" height="855" alt="image" src="https://github.com/user-attachments/assets/2605f7b9-4171-4249-aa4b-10b25803a496" />
 
 ### Product page
-![image](https://github.com/YevheniiKyr/anime_shop/assets/84139553/daa75107-0802-4723-abb6-3bc0928e25c8)
+<img width="1481" height="1071" alt="image" src="https://github.com/user-attachments/assets/dd79bac7-aba8-42c1-a849-290e94b56627" />
 
 ### Order page
-![image](https://github.com/YevheniiKyr/anime_shop/assets/84139553/48cbac01-dee9-4b98-94a9-9dd42aed43fa)
+<img width="1761" height="851" alt="image" src="https://github.com/user-attachments/assets/701edb27-da53-4c9c-9f5c-442098d1d34b" />
 
 ### Admin page
-![image](https://github.com/YevheniiKyr/anime_shop/assets/84139553/cb6ac421-c798-45e3-b07a-824560fe01c1)
+<img width="1230" height="369" alt="image" src="https://github.com/user-attachments/assets/e83b4a0d-fd9a-4665-9233-a98e02a58d43" />
 
 ### Add product modal
-![image](https://github.com/YevheniiKyr/anime_shop/assets/84139553/2fd564c1-e084-4d55-997b-39c5c2bb9923)
+<img width="848" height="637" alt="image" src="https://github.com/user-attachments/assets/dbc54d18-112d-4a2b-8e50-3c2ff3675da5" />
 
+### Add category modal
+<img width="775" height="328" alt="image" src="https://github.com/user-attachments/assets/7fc8fe3d-234f-4b93-b508-3b44c47960cf" />
+
+### Manage orders page
+<img width="1711" height="451" alt="image" src="https://github.com/user-attachments/assets/e9fe4d52-33de-4708-900a-0d1b7022fdf8" />
+
+### Payment page
+<img width="429" height="650" alt="image" src="https://github.com/user-attachments/assets/d611aba8-3f4a-48b7-8e98-7ea355bcec0d" />
+<img width="458" height="434" alt="image" src="https://github.com/user-attachments/assets/fdcb9d7b-991f-4963-aabf-fb3e0848bcc0" />
+<img width="432" height="412" alt="image" src="https://github.com/user-attachments/assets/425f5fb6-bbb2-4274-8b46-d69d0143d77b" />
 
 
