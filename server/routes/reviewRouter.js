@@ -2,7 +2,7 @@ const router = require('express').Router({ mergeParams: true })
 const reviewController = require("../controllers/reviewController");
 const auth = require("../middlewares/authMiddleware")
 const checkRole = require("../middlewares/checkRoleMiddleware")
-const Roles = require("../consts/Roles");
+const Roles = require("../consts/roles");
 
 router.get('/' ,  reviewController.getAllProductReviews)
 router.get('/:id' ,  reviewController.getByID)

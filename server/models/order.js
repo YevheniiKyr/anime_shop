@@ -1,12 +1,14 @@
 const mongoose = require("mongoose");
+const {Schema} = mongoose;
+const {Types} = Schema;
 const OrderStatuses = require("../consts/orderStatuses");
 
-const OrderSchema = new mongoose.Schema(
+const OrderSchema = new Schema(
     {
-        user: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+        user: {type: Types.ObjectId, ref: 'User', required: true},
         products: [
             {
-                product: {type: mongoose.Schema.Types.ObjectId, ref: 'Product'},
+                product: {type: Types.ObjectId, ref: 'Product'},
                 amount: {type: Number, required: true}
             }],
         address: {

@@ -1,5 +1,4 @@
 const authService = require('../services/authService')
-const {verify} = require("jsonwebtoken");
 
 class AuthController {
 

@@ -2,7 +2,7 @@ const router = require('express').Router()
 const basketController = require("../controllers/basketController");
 const auth = require("../middlewares/authMiddleware")
 const checkRole = require("../middlewares/checkRoleMiddleware")
-const Roles = require("../consts/Roles");
+const Roles = require("../consts/roles");
 
 router.put('/', auth,  basketController.update)
 router.get('/', auth, basketController.getByUser)

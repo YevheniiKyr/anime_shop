@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const productController = require("../controllers/productController");
 const checkRole = require("../middlewares/checkRoleMiddleware")
-const Roles = require("../consts/Roles");
+const Roles = require("../consts/roles");
 const reviewRouter = require("./reviewRouter");
 
 router.get('/' ,  productController.getAll)

@@ -16,7 +16,6 @@ function App() {
     const init = async () => {
         if (localStorage.getItem('token')) {
             const user = await check()
-            console.log(user)
             userStore.setUser(user)
             userStore.setIsAuth(true)
             const basket = await fetchBasket(user._id)

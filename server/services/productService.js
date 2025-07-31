@@ -2,7 +2,7 @@ const imagesService = require("./imagesService");
 const Product = require("../models/product");
 const Category = require("../models/category");
 const ApiError = require("../exceptions/apiError");
-const SortOrders = require("../consts/SortOrders");
+const SortOrders = require("../consts/sortOrders");
 
 class ProductService {
 

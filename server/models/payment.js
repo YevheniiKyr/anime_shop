@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const {Schema} = mongoose;
 
-const PaymentSchema = new mongoose.Schema({
+const PaymentSchema = new Schema({
     amount: {
         type: Number,
         required: true,

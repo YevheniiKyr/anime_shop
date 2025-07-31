@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-const {Schema} = require("mongoose");
+const {Schema} = mongoose;
 const {Types} = Schema;
 
 
-const BasketSchema = new mongoose.Schema(
+const BasketSchema = new Schema(
     {
         user: {type: Types.ObjectId, ref: 'User', required: true, unique: true},
         products: {

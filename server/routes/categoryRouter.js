@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const categoryController = require("../controllers/categoryController");
 const checkRole = require("../middlewares/checkRoleMiddleware")
-const Roles = require("../consts/Roles");
+const Roles = require("../consts/roles");
 
 router.get('/' , categoryController.getAll)
 router.post('/' , checkRole(Roles.Admin), categoryController.create)
