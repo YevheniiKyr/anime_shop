@@ -22,20 +22,15 @@ const Index = observer(() => {
         const isExtraLargeScreen = useMediaQuery({minWidth: 1200});
 
         const navigate = useNavigate()
-        const {productStore, optionsStore} = useContext(Context)
+        const {productStore} = useContext(Context)
         const [loading, setLoading] = useState(false)
 
         useEffect(() => {
-            let path = optionsStore.path
-            if (path !== '') {
-                optionsStore.setPath('')
-                navigate(path)
-            }
             if (isExtraSmallScreen) productStore.setLimit(2)
             if (isSmallScreen) productStore.setLimit(4)
             if (isMediumScreen) productStore.setLimit(6)
             if (isLargeScreen || isExtraLargeScreen) productStore.setLimit(8)
-        }, [isSmallScreen, isMediumScreen, isLargeScreen, isExtraSmallScreen, productStore])
+        }, [isSmallScreen, isMediumScreen, isLargeScreen, isExtraSmallScreen, isExtraLargeScreen])
 
 
         const resetFilters = () => {

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {observer} from "mobx-react-lite";
-import {Button, Container, Form, Row} from "react-bootstrap";
+import {Button, Container, Form} from "react-bootstrap";
 
 const AmountController = observer(({amount, setAmount}) => {
     const [currentAmount, setCurrentAmount] = useState(amount || 1);

@@ -6,17 +6,18 @@ import ReviewItem from "./ReviewItem";
 import {fetchReviews} from "../../http/reviewApi";
 import Loader from "../../components/Loader";
 
-const ReviewList = observer(({product_id}) => {
+const ReviewList = observer(({productId}) => {
 
         let [loading, setLoading] = useState(true);
         const {reviewStore} = useContext(Context)
 
         useEffect(() => {
-            fetchReviews(product_id).then(data => {
+            fetchReviews(productId).then(data => {
                 reviewStore.setReviews(data)
                 setLoading(false);
             })
         }, [])
+
         if (loading) {
             return <Loader/>
         }

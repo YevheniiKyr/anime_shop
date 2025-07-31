@@ -17,8 +17,8 @@ const AddProduct = observer(({show, onHide}) => {
 
         useEffect(() => {
             fetchCategories().then(data => productStore.setCategories(data))
-
         }, [])
+
         const selectFile = e => {
             setFile(e.target.files[0])
         }

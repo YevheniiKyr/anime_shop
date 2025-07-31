@@ -12,9 +12,9 @@ const OrderList = observer(() => {
 
         useEffect(() => {
             setLoading(true)
-            fetchOrders().
-            then(orders => setOrders(orders)).
-            finally(() => setLoading(false))
+            fetchOrders()
+                .then(orders => setOrders(orders))
+                .finally(() => setLoading(false))
         }, [])
 
         if (loading) {

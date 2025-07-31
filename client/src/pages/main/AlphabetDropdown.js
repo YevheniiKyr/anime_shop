@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {observer} from "mobx-react-lite";
 import {Context} from "../../index";
 import {Container, Dropdown, Row} from "react-bootstrap";
@@ -7,11 +7,6 @@ import {ALPHABET_ORDER} from "../../utils/consts";
 const AlphabetDropdown = observer(() => {
 
         const {productStore} = useContext(Context)
-        const [clicked, setClicked] = useState(false)
-
-    useEffect(() => {
-
-    })
 
         const chooseItem = (key) => {
             if (key === productStore.currentAlphabetOrder) {

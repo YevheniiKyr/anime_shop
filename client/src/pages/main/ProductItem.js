@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, Card, Col, Container} from "react-bootstrap";
 import {PRODUCT_ROUTE} from "../../utils/constRoutes";
 import {useNavigate} from "react-router-dom";

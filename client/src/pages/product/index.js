@@ -120,7 +120,7 @@ const Index = observer(() => {
                 </Container>
                 <Button onClick={() => findSimilar(id)}> Similar </Button>
                 <Container className={"justify-content-center"}>
-                    <ReviewList product_id={id}/>
+                    <ReviewList productId = {id}/>
                     <Row className={"mt-4 ms-3"}>
                         <Col md={9} lg={9} sm={9} xs={9}>
                             <Form.Control

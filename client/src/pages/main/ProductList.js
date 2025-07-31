@@ -4,8 +4,9 @@ import {Context} from "../../index";
 import ProductItem from "./ProductItem";
 import {observer} from "mobx-react-lite";
 import {fetchRecommendations, findSimilarByAll} from "../../http/recommendApi";
+import Loader from "../../components/Loader";
 
-const ProductList = observer(({recommendations, prod_id}) => {
+const ProductList = observer(({recommendations, productId}) => {
 
         const {productStore, userStore} = useContext(Context)
         const [rec, setRec] = useState([])
@@ -13,13 +14,13 @@ const ProductList = observer(({recommendations, prod_id}) => {
 
         useEffect(() => {
             if (recommendations) {
-                if (prod_id) findSimilarByAll(userStore.user._id, prod_id).then(data => setRec(data))
-                else fetchRecommendations(userStore.user._id).then(data => setRec(data))
+                if (productId) findSimilarByAll(userStore.user._id, productId).then(data => setRec(data)).finally(() => setLoading(false))
+                else fetchRecommendations(userStore.user._id).then(data => setRec(data)).finally(() => setLoading(false))
             }
             setLoading(false)
         }, [])
 
-
+        if(loading) return <Loader/>
         return (
             recommendations ?
                 <Row className="d-flex m-auto ">

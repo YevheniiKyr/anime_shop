@@ -18,7 +18,7 @@ import {CiUser} from 'react-icons/ci'
 import {FaRegHeart} from 'react-icons/fa'
 
 const NavBar = observer(() => {
-    const {userStore, basketStore, optionsStore} = useContext(Context)
+    const {userStore, basketStore} = useContext(Context)
     const navigate = useNavigate()
 
 
@@ -28,7 +28,6 @@ const NavBar = observer(() => {
         userStore.setIsAuth(false)
         basketStore.setBasketId({})
         basketStore.setProducts({})
-        optionsStore.setPath('')
         localStorage.removeItem('token');
     }
 

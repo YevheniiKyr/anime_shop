@@ -10,7 +10,7 @@ import Loader from "./components/Loader";
 
 function App() {
 
-    const {userStore, basketStore, optionsStore} = useContext(Context)
+    const {userStore, basketStore} = useContext(Context)
     const [loading, setLoading] = useState(true)
 
     const init = async () => {

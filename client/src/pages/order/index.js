@@ -26,7 +26,7 @@ const Index = () => {
         let sum = 0
         basketStore.products.map(prod => sum += prod.product.price * prod.amount)
         setTotal(sum)
-    })
+    },[])
 
     const handleToken = async (token) => {
         const address =  token.card.address_country + ', ' + token.card.address_city + ', ' + token.card.address_line1
